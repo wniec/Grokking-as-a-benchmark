@@ -1,0 +1,33 @@
+[project]
+name = "gaab"
+version = "0.1.0"
+description = "Grokking as a Benchmark: IOH-compatible continuous optimization problems built from modular-addition networks"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.24",
+    "ioh>=0.3.14",
+    "pandas>=2.0",
+    "matplotlib>=3.7",
+]
+
+[project.optional-dependencies]
+cma = ["cma>=3.3"]
+dev = ["pytest>=7.4"]
+
+[project.scripts]
+gaab = "gaab.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gaab"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "slow: end-to-end runs that take tens of seconds (deselect with '-m \"not slow\"')",
+]
