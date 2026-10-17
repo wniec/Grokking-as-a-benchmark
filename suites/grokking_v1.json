@@ -1,0 +1,1278 @@
+{
+  "instances": [
+    1,
+    2,
+    3
+  ],
+  "spec_instances": {
+    "GaaB_add_p7_e3_h8_r6W1W2_reg1e-05_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p7_e3_h8_r6W1W2_reg3e-05_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p5_e2_h12_r4W1W2_reg0.0003_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p7_e3_h8_r6W1W2_reg0.0001_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p5_e2_h12_r4W1W2_reg0.001_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p7_e3_h8_r6W1W2_reg0.0003_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p7_e3_h8_r6W1W2_reg0.001_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p7_e2_h8_r6W1W2_reg0.02_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p7_e2_h8_r6W1W2_reg0.03_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p7_e3_h8_r6W1W2_reg0.003_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p13_e2_h12_r4W1W2_reg1e-05_tf0.6": [
+      1,
+      2
+    ],
+    "GaaB_add_p7_e2_h8_r6W1W2_reg0.05_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p13_e2_h12_r4W1W2_reg3e-05_tf0.6": [
+      1,
+      2
+    ],
+    "GaaB_add_p7_e3_h8_r6W1W2_reg0.01_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p13_e2_h12_r4W1W2_reg0.0001_tf0.6": [
+      1,
+      2
+    ],
+    "GaaB_add_p13_e2_h12_r4W1W2_reg0.0003_tf0.6": [
+      1,
+      2
+    ],
+    "GaaB_add_p11_e2_h6_rfull_reg1e-05_tf0.7": [
+      1,
+      2
+    ],
+    "GaaB_add_p13_e2_h12_r4W1W2_reg0.001_tf0.6": [
+      1,
+      2
+    ],
+    "GaaB_add_p11_e2_h6_rfull_reg3e-05_tf0.7": [
+      1,
+      2
+    ],
+    "GaaB_add_p11_e2_h6_rfull_reg0.0001_tf0.7": [
+      1,
+      2
+    ],
+    "GaaB_add_p13_e2_h12_r4W1W2_reg0.003_tf0.6": [
+      1,
+      2
+    ],
+    "GaaB_add_p11_e2_h6_rfull_reg0.0003_tf0.7": [
+      1,
+      2
+    ],
+    "GaaB_add_p11_e2_h6_rfull_reg0.001_tf0.7": [
+      1,
+      2
+    ],
+    "GaaB_add_p13_e2_h12_r4W1W2_reg0.01_tf0.6": [
+      1,
+      2
+    ],
+    "GaaB_add_p11_e2_h6_rfull_reg0.003_tf0.7": [
+      1,
+      2
+    ],
+    "GaaB_add_p11_e2_h6_rfull_reg0.01_tf0.7": [
+      1,
+      2
+    ],
+    "GaaB_add_p13_e2_h12_r4W1W2_reg0.02_tf0.6": [
+      1,
+      2
+    ],
+    "GaaB_add_p13_e2_h12_r4W1W2_reg0.03_tf0.6": [
+      1,
+      2
+    ],
+    "GaaB_add_p13_e2_h12_r4W1W2_reg0.05_tf0.6": [
+      1,
+      2
+    ],
+    "GaaB_add_p11_e2_h6_rfull_reg0.02_tf0.7": [
+      1,
+      2
+    ],
+    "GaaB_add_p5_e2_h12_r4W1W2_reg1e-05_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p5_e2_h12_r4W1W2_reg3e-05_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p17_e3_h8_r3W1W2_reg1e-05_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p5_e2_h12_r4W1W2_reg0.0001_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p17_e2_h8_r3W1W2_reg0.0003_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p5_e2_h12_r4W1W2_reg0.003_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p5_e2_h12_r4W1W2_reg0.01_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p17_e2_h12_r3W1W2_reg0.01_tf0.8": [
+      1,
+      3
+    ],
+    "GaaB_add_p5_e2_h12_r4W1W2_reg0.02_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p5_e2_h12_r4W1W2_reg0.03_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p5_e2_h12_r4W1W2_reg0.05_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p17_e3_h8_r3W1W2_reg3e-05_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p17_e2_h12_r3W1W2_reg0.003_tf0.8": [
+      1,
+      3
+    ],
+    "GaaB_add_p11_e2_h8_r6W1W2_reg0.03_tf0.7": [
+      1,
+      3
+    ],
+    "GaaB_add_p17_e3_h8_r3W1W2_reg0.0001_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p11_e2_h8_r6W1W2_reg0.05_tf0.7": [
+      1,
+      3
+    ],
+    "GaaB_add_p17_e3_h8_r3W1W2_reg0.001_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p17_e2_h8_r3W1W2_reg0.05_tf0.8": [
+      1,
+      2
+    ],
+    "GaaB_add_p17_e2_h6_r3W1W2_reg0.02_tf0.8": [
+      1,
+      3
+    ],
+    "GaaB_add_p3_e3_h6_rfull_reg1e-05_tf0.8": [
+      2
+    ],
+    "GaaB_add_p3_e3_h6_rfull_reg0.0001_tf0.8": [
+      2
+    ],
+    "GaaB_add_p3_e3_h6_rfull_reg0.0003_tf0.8": [
+      2
+    ],
+    "GaaB_add_p3_e3_h8_r3W1_reg3e-05_tf0.8": [
+      2
+    ],
+    "GaaB_add_p3_e4_h12_r6W1_reg0.001_tf0.8": [
+      1
+    ],
+    "GaaB_add_p3_e4_h12_r6W1_reg0.003_tf0.8": [
+      1
+    ],
+    "GaaB_add_p17_e2_h6_r3W1W2_reg0.03_tf0.8": [
+      3
+    ]
+  },
+  "specs": [
+    {
+      "p": 7,
+      "embed_dim": 3,
+      "hidden_dim": 8,
+      "rank": 6,
+      "reg_strength": 1e-05,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 1,
+      "name": "GaaB_add_p7_e3_h8_r6W1W2_reg1e-05_tf0.8",
+      "n_variables": 174
+    },
+    {
+      "p": 7,
+      "embed_dim": 3,
+      "hidden_dim": 8,
+      "rank": 6,
+      "reg_strength": 3e-05,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 2,
+      "name": "GaaB_add_p7_e3_h8_r6W1W2_reg3e-05_tf0.8",
+      "n_variables": 174
+    },
+    {
+      "p": 5,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.0003,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 3,
+      "name": "GaaB_add_p5_e2_h12_r4W1W2_reg0.0003_tf0.8",
+      "n_variables": 143
+    },
+    {
+      "p": 7,
+      "embed_dim": 3,
+      "hidden_dim": 8,
+      "rank": 6,
+      "reg_strength": 0.0001,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 4,
+      "name": "GaaB_add_p7_e3_h8_r6W1W2_reg0.0001_tf0.8",
+      "n_variables": 174
+    },
+    {
+      "p": 5,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.001,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 5,
+      "name": "GaaB_add_p5_e2_h12_r4W1W2_reg0.001_tf0.8",
+      "n_variables": 143
+    },
+    {
+      "p": 7,
+      "embed_dim": 3,
+      "hidden_dim": 8,
+      "rank": 6,
+      "reg_strength": 0.0003,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 6,
+      "name": "GaaB_add_p7_e3_h8_r6W1W2_reg0.0003_tf0.8",
+      "n_variables": 174
+    },
+    {
+      "p": 7,
+      "embed_dim": 3,
+      "hidden_dim": 8,
+      "rank": 6,
+      "reg_strength": 0.001,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 7,
+      "name": "GaaB_add_p7_e3_h8_r6W1W2_reg0.001_tf0.8",
+      "n_variables": 174
+    },
+    {
+      "p": 7,
+      "embed_dim": 2,
+      "hidden_dim": 8,
+      "rank": 6,
+      "reg_strength": 0.02,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 8,
+      "name": "GaaB_add_p7_e2_h8_r6W1W2_reg0.02_tf0.8",
+      "n_variables": 151
+    },
+    {
+      "p": 7,
+      "embed_dim": 2,
+      "hidden_dim": 8,
+      "rank": 6,
+      "reg_strength": 0.03,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 9,
+      "name": "GaaB_add_p7_e2_h8_r6W1W2_reg0.03_tf0.8",
+      "n_variables": 151
+    },
+    {
+      "p": 7,
+      "embed_dim": 3,
+      "hidden_dim": 8,
+      "rank": 6,
+      "reg_strength": 0.003,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 10,
+      "name": "GaaB_add_p7_e3_h8_r6W1W2_reg0.003_tf0.8",
+      "n_variables": 174
+    },
+    {
+      "p": 13,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 1e-05,
+      "train_frac": 0.6,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 11,
+      "name": "GaaB_add_p13_e2_h12_r4W1W2_reg1e-05_tf0.6",
+      "n_variables": 199
+    },
+    {
+      "p": 7,
+      "embed_dim": 2,
+      "hidden_dim": 8,
+      "rank": 6,
+      "reg_strength": 0.05,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 12,
+      "name": "GaaB_add_p7_e2_h8_r6W1W2_reg0.05_tf0.8",
+      "n_variables": 151
+    },
+    {
+      "p": 13,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 3e-05,
+      "train_frac": 0.6,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 13,
+      "name": "GaaB_add_p13_e2_h12_r4W1W2_reg3e-05_tf0.6",
+      "n_variables": 199
+    },
+    {
+      "p": 7,
+      "embed_dim": 3,
+      "hidden_dim": 8,
+      "rank": 6,
+      "reg_strength": 0.01,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 14,
+      "name": "GaaB_add_p7_e3_h8_r6W1W2_reg0.01_tf0.8",
+      "n_variables": 174
+    },
+    {
+      "p": 13,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.0001,
+      "train_frac": 0.6,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 15,
+      "name": "GaaB_add_p13_e2_h12_r4W1W2_reg0.0001_tf0.6",
+      "n_variables": 199
+    },
+    {
+      "p": 13,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.0003,
+      "train_frac": 0.6,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 16,
+      "name": "GaaB_add_p13_e2_h12_r4W1W2_reg0.0003_tf0.6",
+      "n_variables": 199
+    },
+    {
+      "p": 11,
+      "embed_dim": 2,
+      "hidden_dim": 6,
+      "rank": null,
+      "reg_strength": 1e-05,
+      "train_frac": 0.7,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 17,
+      "name": "GaaB_add_p11_e2_h6_rfull_reg1e-05_tf0.7",
+      "n_variables": 129
+    },
+    {
+      "p": 13,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.001,
+      "train_frac": 0.6,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 18,
+      "name": "GaaB_add_p13_e2_h12_r4W1W2_reg0.001_tf0.6",
+      "n_variables": 199
+    },
+    {
+      "p": 11,
+      "embed_dim": 2,
+      "hidden_dim": 6,
+      "rank": null,
+      "reg_strength": 3e-05,
+      "train_frac": 0.7,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 19,
+      "name": "GaaB_add_p11_e2_h6_rfull_reg3e-05_tf0.7",
+      "n_variables": 129
+    },
+    {
+      "p": 11,
+      "embed_dim": 2,
+      "hidden_dim": 6,
+      "rank": null,
+      "reg_strength": 0.0001,
+      "train_frac": 0.7,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 20,
+      "name": "GaaB_add_p11_e2_h6_rfull_reg0.0001_tf0.7",
+      "n_variables": 129
+    },
+    {
+      "p": 13,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.003,
+      "train_frac": 0.6,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 21,
+      "name": "GaaB_add_p13_e2_h12_r4W1W2_reg0.003_tf0.6",
+      "n_variables": 199
+    },
+    {
+      "p": 11,
+      "embed_dim": 2,
+      "hidden_dim": 6,
+      "rank": null,
+      "reg_strength": 0.0003,
+      "train_frac": 0.7,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 22,
+      "name": "GaaB_add_p11_e2_h6_rfull_reg0.0003_tf0.7",
+      "n_variables": 129
+    },
+    {
+      "p": 11,
+      "embed_dim": 2,
+      "hidden_dim": 6,
+      "rank": null,
+      "reg_strength": 0.001,
+      "train_frac": 0.7,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 23,
+      "name": "GaaB_add_p11_e2_h6_rfull_reg0.001_tf0.7",
+      "n_variables": 129
+    },
+    {
+      "p": 13,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.01,
+      "train_frac": 0.6,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 24,
+      "name": "GaaB_add_p13_e2_h12_r4W1W2_reg0.01_tf0.6",
+      "n_variables": 199
+    },
+    {
+      "p": 11,
+      "embed_dim": 2,
+      "hidden_dim": 6,
+      "rank": null,
+      "reg_strength": 0.003,
+      "train_frac": 0.7,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 25,
+      "name": "GaaB_add_p11_e2_h6_rfull_reg0.003_tf0.7",
+      "n_variables": 129
+    },
+    {
+      "p": 11,
+      "embed_dim": 2,
+      "hidden_dim": 6,
+      "rank": null,
+      "reg_strength": 0.01,
+      "train_frac": 0.7,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 26,
+      "name": "GaaB_add_p11_e2_h6_rfull_reg0.01_tf0.7",
+      "n_variables": 129
+    },
+    {
+      "p": 13,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.02,
+      "train_frac": 0.6,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 27,
+      "name": "GaaB_add_p13_e2_h12_r4W1W2_reg0.02_tf0.6",
+      "n_variables": 199
+    },
+    {
+      "p": 13,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.03,
+      "train_frac": 0.6,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 28,
+      "name": "GaaB_add_p13_e2_h12_r4W1W2_reg0.03_tf0.6",
+      "n_variables": 199
+    },
+    {
+      "p": 13,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.05,
+      "train_frac": 0.6,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 29,
+      "name": "GaaB_add_p13_e2_h12_r4W1W2_reg0.05_tf0.6",
+      "n_variables": 199
+    },
+    {
+      "p": 11,
+      "embed_dim": 2,
+      "hidden_dim": 6,
+      "rank": null,
+      "reg_strength": 0.02,
+      "train_frac": 0.7,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 30,
+      "name": "GaaB_add_p11_e2_h6_rfull_reg0.02_tf0.7",
+      "n_variables": 129
+    },
+    {
+      "p": 5,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 1e-05,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 31,
+      "name": "GaaB_add_p5_e2_h12_r4W1W2_reg1e-05_tf0.8",
+      "n_variables": 143
+    },
+    {
+      "p": 5,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 3e-05,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 32,
+      "name": "GaaB_add_p5_e2_h12_r4W1W2_reg3e-05_tf0.8",
+      "n_variables": 143
+    },
+    {
+      "p": 17,
+      "embed_dim": 3,
+      "hidden_dim": 8,
+      "rank": 3,
+      "reg_strength": 1e-05,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 33,
+      "name": "GaaB_add_p17_e3_h8_r3W1W2_reg1e-05_tf0.8",
+      "n_variables": 193
+    },
+    {
+      "p": 5,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.0001,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 34,
+      "name": "GaaB_add_p5_e2_h12_r4W1W2_reg0.0001_tf0.8",
+      "n_variables": 143
+    },
+    {
+      "p": 17,
+      "embed_dim": 2,
+      "hidden_dim": 8,
+      "rank": 3,
+      "reg_strength": 0.0003,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 35,
+      "name": "GaaB_add_p17_e2_h8_r3W1W2_reg0.0003_tf0.8",
+      "n_variables": 170
+    },
+    {
+      "p": 5,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.003,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 36,
+      "name": "GaaB_add_p5_e2_h12_r4W1W2_reg0.003_tf0.8",
+      "n_variables": 143
+    },
+    {
+      "p": 5,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.01,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 37,
+      "name": "GaaB_add_p5_e2_h12_r4W1W2_reg0.01_tf0.8",
+      "n_variables": 143
+    },
+    {
+      "p": 17,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 3,
+      "reg_strength": 0.01,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 38,
+      "name": "GaaB_add_p17_e2_h12_r3W1W2_reg0.01_tf0.8",
+      "n_variables": 198
+    },
+    {
+      "p": 5,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.02,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 39,
+      "name": "GaaB_add_p5_e2_h12_r4W1W2_reg0.02_tf0.8",
+      "n_variables": 143
+    },
+    {
+      "p": 5,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.03,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 40,
+      "name": "GaaB_add_p5_e2_h12_r4W1W2_reg0.03_tf0.8",
+      "n_variables": 143
+    },
+    {
+      "p": 5,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 4,
+      "reg_strength": 0.05,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 41,
+      "name": "GaaB_add_p5_e2_h12_r4W1W2_reg0.05_tf0.8",
+      "n_variables": 143
+    },
+    {
+      "p": 17,
+      "embed_dim": 3,
+      "hidden_dim": 8,
+      "rank": 3,
+      "reg_strength": 3e-05,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 42,
+      "name": "GaaB_add_p17_e3_h8_r3W1W2_reg3e-05_tf0.8",
+      "n_variables": 193
+    },
+    {
+      "p": 17,
+      "embed_dim": 2,
+      "hidden_dim": 12,
+      "rank": 3,
+      "reg_strength": 0.003,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 43,
+      "name": "GaaB_add_p17_e2_h12_r3W1W2_reg0.003_tf0.8",
+      "n_variables": 198
+    },
+    {
+      "p": 11,
+      "embed_dim": 2,
+      "hidden_dim": 8,
+      "rank": 6,
+      "reg_strength": 0.03,
+      "train_frac": 0.7,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 44,
+      "name": "GaaB_add_p11_e2_h8_r6W1W2_reg0.03_tf0.7",
+      "n_variables": 187
+    },
+    {
+      "p": 17,
+      "embed_dim": 3,
+      "hidden_dim": 8,
+      "rank": 3,
+      "reg_strength": 0.0001,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 45,
+      "name": "GaaB_add_p17_e3_h8_r3W1W2_reg0.0001_tf0.8",
+      "n_variables": 193
+    },
+    {
+      "p": 11,
+      "embed_dim": 2,
+      "hidden_dim": 8,
+      "rank": 6,
+      "reg_strength": 0.05,
+      "train_frac": 0.7,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 46,
+      "name": "GaaB_add_p11_e2_h8_r6W1W2_reg0.05_tf0.7",
+      "n_variables": 187
+    },
+    {
+      "p": 17,
+      "embed_dim": 3,
+      "hidden_dim": 8,
+      "rank": 3,
+      "reg_strength": 0.001,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 47,
+      "name": "GaaB_add_p17_e3_h8_r3W1W2_reg0.001_tf0.8",
+      "n_variables": 193
+    },
+    {
+      "p": 17,
+      "embed_dim": 2,
+      "hidden_dim": 8,
+      "rank": 3,
+      "reg_strength": 0.05,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 48,
+      "name": "GaaB_add_p17_e2_h8_r3W1W2_reg0.05_tf0.8",
+      "n_variables": 170
+    },
+    {
+      "p": 17,
+      "embed_dim": 2,
+      "hidden_dim": 6,
+      "rank": 3,
+      "reg_strength": 0.02,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 49,
+      "name": "GaaB_add_p17_e2_h6_r3W1W2_reg0.02_tf0.8",
+      "n_variables": 156
+    },
+    {
+      "p": 3,
+      "embed_dim": 3,
+      "hidden_dim": 6,
+      "rank": null,
+      "reg_strength": 1e-05,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 50,
+      "name": "GaaB_add_p3_e3_h6_rfull_reg1e-05_tf0.8",
+      "n_variables": 72
+    },
+    {
+      "p": 3,
+      "embed_dim": 3,
+      "hidden_dim": 6,
+      "rank": null,
+      "reg_strength": 0.0001,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 51,
+      "name": "GaaB_add_p3_e3_h6_rfull_reg0.0001_tf0.8",
+      "n_variables": 72
+    },
+    {
+      "p": 3,
+      "embed_dim": 3,
+      "hidden_dim": 6,
+      "rank": null,
+      "reg_strength": 0.0003,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 52,
+      "name": "GaaB_add_p3_e3_h6_rfull_reg0.0003_tf0.8",
+      "n_variables": 72
+    },
+    {
+      "p": 3,
+      "embed_dim": 3,
+      "hidden_dim": 8,
+      "rank": 3,
+      "reg_strength": 3e-05,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 53,
+      "name": "GaaB_add_p3_e3_h8_r3W1_reg3e-05_tf0.8",
+      "n_variables": 86
+    },
+    {
+      "p": 3,
+      "embed_dim": 4,
+      "hidden_dim": 12,
+      "rank": 6,
+      "reg_strength": 0.001,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 54,
+      "name": "GaaB_add_p3_e4_h12_r6W1_reg0.001_tf0.8",
+      "n_variables": 183
+    },
+    {
+      "p": 3,
+      "embed_dim": 4,
+      "hidden_dim": 12,
+      "rank": 6,
+      "reg_strength": 0.003,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 55,
+      "name": "GaaB_add_p3_e4_h12_r6W1_reg0.003_tf0.8",
+      "n_variables": 183
+    },
+    {
+      "p": 17,
+      "embed_dim": 2,
+      "hidden_dim": 6,
+      "rank": 3,
+      "reg_strength": 0.03,
+      "train_frac": 0.8,
+      "op": "add",
+      "activation": "quad",
+      "rank_targets": [
+        "W1",
+        "W2"
+      ],
+      "lb": -2.0,
+      "ub": 2.0,
+      "problem_id": 56,
+      "name": "GaaB_add_p17_e2_h6_r3W1W2_reg0.03_tf0.8",
+      "n_variables": 156
+    }
+  ]
+}
