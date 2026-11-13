@@ -65,7 +65,11 @@ def segments_from_history(
             break
         if t > cursor:
             out.append(Segment(cursor, t - 1, *cur))
-        cur = (float(rec.objective), float(rec.train_accuracy), float(rec.test_accuracy))
+        cur = (
+            float(rec.objective),
+            float(rec.train_accuracy),
+            float(rec.test_accuracy),
+        )
         cursor = t
     if cursor <= budget:
         out.append(Segment(cursor, budget, *cur))
@@ -83,7 +87,9 @@ def curve_at(segments: Sequence[Segment], grid: Iterable[int], attr: str) -> np.
 
 def budget_grid(budget: int, n_points: int = 120) -> np.ndarray:
     """Log-spaced evaluation counts, for plotting."""
-    grid = np.unique(np.round(np.geomspace(1, max(budget, 2), n_points)).astype(np.int64))
+    grid = np.unique(
+        np.round(np.geomspace(1, max(budget, 2), n_points)).astype(np.int64)
+    )
     return grid[grid <= budget]
 
 
@@ -118,7 +124,9 @@ def aocc_objective(
     return float(1.0 - np.sum(vals * weights) / budget)
 
 
-def aocc_accuracy(segments: Sequence[Segment], budget: int, attr: str = "test_accuracy") -> float:
+def aocc_accuracy(
+    segments: Sequence[Segment], budget: int, attr: str = "test_accuracy"
+) -> float:
     """Mean incumbent accuracy over the budget: area *under* the curve, in [0, 1].
 
     The generalization counterpart of :func:`aocc_objective`.  An optimizer
@@ -165,7 +173,9 @@ def ert(hitting_times: Sequence[int | None], budget: int) -> tuple[float, float]
     return (sum(successes) + n_fail * budget) / len(successes), rate
 
 
-def objective_targets(hi: float, lo: float = DEFAULT_LOSS_FLOOR, n: int = 8) -> np.ndarray:
+def objective_targets(
+    hi: float, lo: float = DEFAULT_LOSS_FLOOR, n: int = 8
+) -> np.ndarray:
     """A geometric ladder of objective targets between ``hi`` and ``lo``."""
     return np.geomspace(hi, lo, n)
 

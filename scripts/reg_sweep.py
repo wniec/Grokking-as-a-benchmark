@@ -29,7 +29,9 @@ os.environ.setdefault("OMP_NUM_THREADS", "1")
 os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
 os.environ.setdefault("MKL_NUM_THREADS", "1")
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
+sys.path.insert(
+    0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src")
+)
 
 import numpy as np  # noqa: E402
 
@@ -49,7 +51,17 @@ ARCHITECTURES = [
 
 #: reg sweep: 0 (control) then a geometric ladder from 1e-5 up to 0.05.
 REG_VALUES = [
-    0.0, 1e-5, 3e-5, 1e-4, 3e-4, 1e-3, 3e-3, 1e-2, 2e-2, 3e-2, 5e-2,
+    0.0,
+    1e-5,
+    3e-5,
+    1e-4,
+    3e-4,
+    1e-3,
+    3e-3,
+    1e-2,
+    2e-2,
+    3e-2,
+    5e-2,
 ]
 
 
@@ -100,7 +112,11 @@ def summarize(frame):
         grok_rate=("is_grok", "mean"),
         mean_best_test=("best_test_accuracy", "mean"),
     )
-    delay = grok.groupby("reg_strength")["delay_ratio"].median().rename("median_delay_ratio")
+    delay = (
+        grok.groupby("reg_strength")["delay_ratio"]
+        .median()
+        .rename("median_delay_ratio")
+    )
     tgen = grok.groupby("reg_strength")["t_gen"].median().rename("median_t_gen")
     summary = summary.join(delay).join(tgen).reset_index()
     return summary
@@ -108,6 +124,7 @@ def summarize(frame):
 
 def plot(summary, out_path):
     import matplotlib
+
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
@@ -124,30 +141,60 @@ def plot(summary, out_path):
     fig, ax1 = plt.subplots(figsize=(8.6, 5.2))
     rate_color, delay_color = "#2a78d6", "#eb6834"
 
-    ax1.plot(x, summary["grok_rate"], color=rate_color, marker="o", markersize=6,
-             markeredgecolor=SURFACE, markeredgewidth=0.8, label="grok rate")
+    ax1.plot(
+        x,
+        summary["grok_rate"],
+        color=rate_color,
+        marker="o",
+        markersize=6,
+        markeredgecolor=SURFACE,
+        markeredgewidth=0.8,
+        label="grok rate",
+    )
     ax1.set_xscale("log")
     ax1.set_xlabel("regularization strength (direct loss factor)")
     ax1.set_ylabel("grok rate  (fraction of runs that grok)", color=rate_color)
     ax1.tick_params(axis="y", labelcolor=rate_color)
     ax1.set_ylim(0, max(summary["grok_rate"].max() * 1.25, 0.05))
     ax1.axvline(zero_x, color=TEXT_MUTED, lw=0.9, ls=(0, (2, 3)))
-    ax1.annotate("reg = 0\n(no pressure)", xy=(zero_x, ax1.get_ylim()[1]),
-                 xytext=(0, -4), textcoords="offset points", ha="center", va="top",
-                 fontsize=7.5, color=TEXT_MUTED)
+    ax1.annotate(
+        "reg = 0\n(no pressure)",
+        xy=(zero_x, ax1.get_ylim()[1]),
+        xytext=(0, -4),
+        textcoords="offset points",
+        ha="center",
+        va="top",
+        fontsize=7.5,
+        color=TEXT_MUTED,
+    )
 
     ax2 = ax1.twinx()
-    ax2.plot(x, summary["median_delay_ratio"], color=delay_color, marker="s",
-             markersize=6, markeredgecolor=SURFACE, markeredgewidth=0.8,
-             label="median delay ratio")
-    ax2.set_ylabel("median delay ratio  t_gen / t_fit  (grokking runs)", color=delay_color)
+    ax2.plot(
+        x,
+        summary["median_delay_ratio"],
+        color=delay_color,
+        marker="s",
+        markersize=6,
+        markeredgecolor=SURFACE,
+        markeredgewidth=0.8,
+        label="median delay ratio",
+    )
+    ax2.set_ylabel(
+        "median delay ratio  t_gen / t_fit  (grokking runs)", color=delay_color
+    )
     ax2.tick_params(axis="y", labelcolor=delay_color)
     ax2.grid(False)
 
     lines = ax1.get_lines()[:1] + ax2.get_lines()[:1]
     ax1.legend(lines, [l.get_label() for l in lines], loc="upper center")
-    fig.suptitle("How grokking strength depends on regularization",
-                 x=0.01, ha="left", fontsize=12, color=TEXT_PRIMARY, weight="bold")
+    fig.suptitle(
+        "How grokking strength depends on regularization",
+        x=0.01,
+        ha="left",
+        fontsize=12,
+        color=TEXT_PRIMARY,
+        weight="bold",
+    )
     fig.tight_layout(rect=(0, 0, 1, 0.96))
     fig.savefig(out_path, dpi=160)
     plt.close(fig)
@@ -163,8 +210,10 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     os.makedirs(args.out_dir, exist_ok=True)
-    print(f"Reg sweep: {len(ARCHITECTURES)} architectures x {len(REG_VALUES)} reg values "
-          f"x {args.instances} instances x {args.steps} epochs")
+    print(
+        f"Reg sweep: {len(ARCHITECTURES)} architectures x {len(REG_VALUES)} reg values "
+        f"x {args.instances} instances x {args.steps} epochs"
+    )
     frame = run(args.steps, args.instances, args.jobs)
     frame.to_csv(os.path.join(args.out_dir, "runs.csv"), index=False)
     summary = summarize(frame)
@@ -175,8 +224,10 @@ def main(argv=None):
         print("\n" + summary.round(3).to_string(index=False))
     peak_rate = summary.loc[summary["grok_rate"].idxmax(), "reg_strength"]
     peak_delay = summary.loc[summary["median_delay_ratio"].idxmax(), "reg_strength"]
-    print(f"\nStrongest grok rate at reg = {peak_rate:g}; "
-          f"largest delay ratio at reg = {peak_delay:g}")
+    print(
+        f"\nStrongest grok rate at reg = {peak_rate:g}; "
+        f"largest delay ratio at reg = {peak_delay:g}"
+    )
     print(f"Wrote {path}")
     return 0
 

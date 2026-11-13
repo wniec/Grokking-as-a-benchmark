@@ -35,6 +35,7 @@ from gaab.data import is_prime, make_dataset
 from gaab.model import ModelConfig, n_parameters
 from gaab.objective import GrokkingObjective, Metrics
 
+
 @dataclass(frozen=True)
 class ProblemSpec:
     """A point in the benchmark family: one landscape, before instancing.
@@ -53,6 +54,7 @@ class ProblemSpec:
     op: str = "add"
     activation: str = "relu"
     rank_targets: tuple[str, ...] = ("W1",)
+    projection_dim: int | None = None
     lb: float = -2.0
     ub: float = 2.0
     problem_id: int | None = None
@@ -62,6 +64,8 @@ class ProblemSpec:
             raise ValueError(f"p must be prime, got {self.p}.")
         if self.ub <= self.lb:
             raise ValueError("ub must exceed lb.")
+        if self.projection_dim is not None and self.projection_dim < 1:
+            raise ValueError("projection_dim must be >= 1 or None.")
 
     @property
     def model_config(self) -> ModelConfig:
@@ -76,16 +80,26 @@ class ProblemSpec:
 
     @property
     def n_variables(self) -> int:
+        if self.projection_dim is not None:
+            return int(self.projection_dim)
+        return n_parameters(self.model_config)
+
+    @property
+    def model_n_variables(self) -> int:
+        """The underlying network's parameter count (before any projection)."""
         return n_parameters(self.model_config)
 
     @property
     def name(self) -> str:
         # The *targets* are part of the identity: a rank-4 W1 and a rank-4
         # W1+W2 are different landscapes with different dimensions.
-        rank = "full" if self.rank is None else f"{self.rank}{''.join(self.rank_targets)}"
+        rank = (
+            "full" if self.rank is None else f"{self.rank}{''.join(self.rank_targets)}"
+        )
+        proj = "" if self.projection_dim is None else f"_proj{self.projection_dim}"
         return (
             f"GaaB_{self.op}_p{self.p}_e{self.embed_dim}_h{self.hidden_dim}"
-            f"_r{rank}_reg{self.reg_strength:g}_tf{self.train_frac:g}"
+            f"_r{rank}_reg{self.reg_strength:g}_tf{self.train_frac:g}{proj}"
         )
 
     @property
@@ -151,6 +165,15 @@ class GrokkingProblem(ioh.problem.RealSingleObjective):
         self.objective = GrokkingObjective(
             spec.model_config, data, reg_strength=spec.reg_strength
         )
+        # Optional random-subspace reparameterization: the optimizer then works
+        # in ``projection_dim`` variables regardless of the network size.  The
+        # anchor/projection are seeded by the instance, so instances differ.
+        if spec.projection_dim is not None:
+            from gaab.projection import ProjectedObjective
+
+            self.objective = ProjectedObjective(
+                self.objective, dim=spec.projection_dim, seed=self.instance_id
+            )
         n = self.objective.n_variables
 
         super().__init__(

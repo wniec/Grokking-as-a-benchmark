@@ -46,9 +46,7 @@ def single_threaded_blas():
                 os.environ[name] = value
 
 
-def map_unordered(
-    function: Callable, payloads: Sequence, jobs: int
-) -> Iterator:
+def map_unordered(function: Callable, payloads: Sequence, jobs: int) -> Iterator:
     """Run ``function`` over ``payloads``, yielding results as they finish.
 
     Falls back to a plain serial loop when ``jobs <= 1``, so callers do not

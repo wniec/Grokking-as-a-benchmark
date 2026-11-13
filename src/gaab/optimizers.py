@@ -103,11 +103,17 @@ def _finish(budgeted: _BudgetedProblem, fallback: np.ndarray) -> np.ndarray:
 # ---------------------------------------------------------------------------
 # solvers
 # ---------------------------------------------------------------------------
-def random_search(problem, budget: int, rng: np.random.Generator, x0=None, **kw) -> np.ndarray:
+def random_search(
+    problem, budget: int, rng: np.random.Generator, x0=None, **kw
+) -> np.ndarray:
     """Uniform sampling in the box. The floor every other method must beat."""
     f = _BudgetedProblem(problem, budget)
     n = problem.meta_data.n_variables
-    x0 = initial_point(problem, rng, kw.get("x0_mode", "init")) if x0 is None else np.asarray(x0)
+    x0 = (
+        initial_point(problem, rng, kw.get("x0_mode", "init"))
+        if x0 is None
+        else np.asarray(x0)
+    )
     try:
         f(x0)
         while f.remaining > 0:
@@ -129,7 +135,11 @@ def local_random_search(
     """(1+1) Gaussian hill climber with a 1/5th-success step-size rule."""
     f = _BudgetedProblem(problem, budget)
     n = problem.meta_data.n_variables
-    x = initial_point(problem, rng, kw.get("x0_mode", "init")) if x0 is None else np.asarray(x0, float)
+    x = (
+        initial_point(problem, rng, kw.get("x0_mode", "init"))
+        if x0 is None
+        else np.asarray(x0, float)
+    )
     sigma = float(sigma0)
     try:
         y = f(x)
@@ -171,7 +181,11 @@ def cma_es(
     """
     f = _BudgetedProblem(problem, budget)
     n = problem.meta_data.n_variables
-    xmean = initial_point(problem, rng, kw.get("x0_mode", "init")) if x0 is None else np.asarray(x0, float).copy()
+    xmean = (
+        initial_point(problem, rng, kw.get("x0_mode", "init"))
+        if x0 is None
+        else np.asarray(x0, float).copy()
+    )
     sigma = float(sigma0 if sigma0 is not None else default_sigma0(xmean))
 
     lam = int(popsize or 4 + math.floor(3 * math.log(n)))
@@ -249,7 +263,11 @@ def sep_cma_es(
     """
     f = _BudgetedProblem(problem, budget)
     n = problem.meta_data.n_variables
-    xmean = initial_point(problem, rng, kw.get("x0_mode", "init")) if x0 is None else np.asarray(x0, float).copy()
+    xmean = (
+        initial_point(problem, rng, kw.get("x0_mode", "init"))
+        if x0 is None
+        else np.asarray(x0, float).copy()
+    )
     sigma = float(sigma0 if sigma0 is not None else default_sigma0(xmean))
 
     lam = int(popsize or 4 + math.floor(3 * math.log(n)))
@@ -323,7 +341,11 @@ def pso(
     swarm = int(swarm_size or min(40, 10 + 2 * int(math.sqrt(n))))
     span = f.ub - f.lb
 
-    centre = initial_point(problem, rng, kw.get("x0_mode", "init")) if x0 is None else np.asarray(x0, float)
+    centre = (
+        initial_point(problem, rng, kw.get("x0_mode", "init"))
+        if x0 is None
+        else np.asarray(x0, float)
+    )
     # Seed the swarm around a valid network initialization rather than
     # uniformly in the box, for the reason given in `initial_point`.
     scale = 0.5 * float(np.mean(np.abs(centre))) + 1e-3
@@ -341,11 +363,7 @@ def pso(
         while f.remaining > 0:
             r1 = rng.random((swarm, n))
             r2 = rng.random((swarm, n))
-            v = (
-                inertia * v
-                + cognitive * r1 * (p_best - x)
-                + social * r2 * (g_best - x)
-            )
+            v = inertia * v + cognitive * r1 * (p_best - x) + social * r2 * (g_best - x)
             v = np.clip(v, -0.5 * span, 0.5 * span)
             x = np.clip(x + v, f.lb, f.ub)
 
@@ -376,7 +394,11 @@ def differential_evolution(
     n = problem.meta_data.n_variables
     npop = int(pop_size or min(50, 10 + 2 * int(math.sqrt(n))))
 
-    centre = initial_point(problem, rng, kw.get("x0_mode", "init")) if x0 is None else np.asarray(x0, float)
+    centre = (
+        initial_point(problem, rng, kw.get("x0_mode", "init"))
+        if x0 is None
+        else np.asarray(x0, float)
+    )
     scale = 0.5 * float(np.mean(np.abs(centre))) + 1e-3
     pop = np.clip(centre + rng.normal(0.0, scale, size=(npop, n)), f.lb, f.ub)
     pop[0] = centre
@@ -421,7 +443,11 @@ def adam(
     if not hasattr(problem, "objective"):
         raise TypeError("adam needs a GrokkingProblem (it uses analytic gradients).")
     f = _BudgetedProblem(problem, budget)
-    x = initial_point(problem, rng, kw.get("x0_mode", "init")) if x0 is None else np.asarray(x0, float).copy()
+    x = (
+        initial_point(problem, rng, kw.get("x0_mode", "init"))
+        if x0 is None
+        else np.asarray(x0, float).copy()
+    )
     m = np.zeros_like(x)
     v = np.zeros_like(x)
     try:
@@ -432,7 +458,9 @@ def adam(
                 break
             m = beta1 * m + (1 - beta1) * g
             v = beta2 * v + (1 - beta2) * g * g
-            x = x - lr * (m / (1 - beta1**step)) / (np.sqrt(v / (1 - beta2**step)) + eps)
+            x = x - lr * (m / (1 - beta1**step)) / (
+                np.sqrt(v / (1 - beta2**step)) + eps
+            )
             x = np.clip(x, f.lb, f.ub)
     except _BudgetedProblem.Exhausted:
         pass
@@ -472,7 +500,11 @@ def lm_ma_es(
     """
     f = _BudgetedProblem(problem, budget)
     n = problem.meta_data.n_variables
-    xmean = initial_point(problem, rng, kw.get("x0_mode", "init")) if x0 is None else np.asarray(x0, float).copy()
+    xmean = (
+        initial_point(problem, rng, kw.get("x0_mode", "init"))
+        if x0 is None
+        else np.asarray(x0, float).copy()
+    )
     sigma = float(sigma0 if sigma0 is not None else default_sigma0(xmean))
 
     lam = int(popsize or 4 + math.floor(3 * math.log(n)))
@@ -613,7 +645,11 @@ def lm_cma_es(
     """
     f = _BudgetedProblem(problem, budget)
     n = problem.meta_data.n_variables
-    xmean = initial_point(problem, rng, kw.get("x0_mode", "init")) if x0 is None else np.asarray(x0, float).copy()
+    xmean = (
+        initial_point(problem, rng, kw.get("x0_mode", "init"))
+        if x0 is None
+        else np.asarray(x0, float).copy()
+    )
     sigma = float(sigma0 if sigma0 is not None else default_sigma0(xmean))
 
     lam = int(popsize or 4 + math.floor(3 * math.log(n)))
@@ -684,7 +720,11 @@ def separable_nes(
     """
     f = _BudgetedProblem(problem, budget)
     n = problem.meta_data.n_variables
-    mean = initial_point(problem, rng, kw.get("x0_mode", "init")) if x0 is None else np.asarray(x0, float).copy()
+    mean = (
+        initial_point(problem, rng, kw.get("x0_mode", "init"))
+        if x0 is None
+        else np.asarray(x0, float).copy()
+    )
     sigma = float(sigma0 if sigma0 is not None else default_sigma0(mean)) * np.ones(n)
 
     lam = int(popsize or 4 + math.floor(3 * math.log(n)))
@@ -739,7 +779,11 @@ def make_nevergrad(method: str) -> "Solver":
             ) from exc
 
         f = _BudgetedProblem(problem, budget)
-        start = initial_point(problem, rng, kw.get("x0_mode", "init")) if x0 is None else np.asarray(x0, float)
+        start = (
+            initial_point(problem, rng, kw.get("x0_mode", "init"))
+            if x0 is None
+            else np.asarray(x0, float)
+        )
         param = ng.p.Array(init=np.clip(start, f.lb, f.ub))
         param.set_bounds(f.lb, f.ub, method="clipping")
         opt = ng.optimizers.registry[method](parametrization=param, budget=budget)
@@ -756,7 +800,9 @@ def make_nevergrad(method: str) -> "Solver":
     return solver
 
 
-def pycma_es(problem, budget: int, rng: np.random.Generator, x0=None, sigma0=None, **kw):
+def pycma_es(
+    problem, budget: int, rng: np.random.Generator, x0=None, sigma0=None, **kw
+):
     """Adapter for the reference ``cma`` package, when it is installed."""
     try:
         import cma
@@ -764,7 +810,11 @@ def pycma_es(problem, budget: int, rng: np.random.Generator, x0=None, sigma0=Non
         raise ImportError("pycma_es requires the optional `cma` package.") from exc
 
     f = _BudgetedProblem(problem, budget)
-    start = initial_point(problem, rng, kw.get("x0_mode", "init")) if x0 is None else np.asarray(x0, float)
+    start = (
+        initial_point(problem, rng, kw.get("x0_mode", "init"))
+        if x0 is None
+        else np.asarray(x0, float)
+    )
     sigma = float(sigma0 if sigma0 is not None else default_sigma0(start))
     es = cma.CMAEvolutionStrategy(
         list(start),
@@ -803,7 +853,9 @@ OPTIMIZERS: dict[str, Solver] = {
 # Optional Nevergrad-backed large-scale methods; registered by name so they show
 # up in `--list` and the sweep everywhere, but they raise (and callers skip) if
 # Nevergrad is not installed.
-OPTIMIZERS.update({name: make_nevergrad(ng_name) for name, ng_name in NEVERGRAD_METHODS.items()})
+OPTIMIZERS.update(
+    {name: make_nevergrad(ng_name) for name, ng_name in NEVERGRAD_METHODS.items()}
+)
 
 #: The optimizers the shipped experiment runs.  ``de`` and the uniform
 #: ``random_search`` floor are deliberately excluded: on this suite both sit at
@@ -838,7 +890,13 @@ OPTIONAL_OPTIMIZERS = frozenset({"pycma_es"} | set(NEVERGRAD_METHODS))
 
 def optional_dependency(name: str) -> str | None:
     """The optional package ``name`` needs but that is not importable, or None."""
-    module = "cma" if name == "pycma_es" else "nevergrad" if name in NEVERGRAD_METHODS else None
+    module = (
+        "cma"
+        if name == "pycma_es"
+        else "nevergrad"
+        if name in NEVERGRAD_METHODS
+        else None
+    )
     if module is None:
         return None
     try:
@@ -850,5 +908,7 @@ def optional_dependency(name: str) -> str | None:
 
 def get_optimizer(name: str) -> Solver:
     if name not in OPTIMIZERS:
-        raise ValueError(f"Unknown optimizer {name!r}; choose from {sorted(OPTIMIZERS)}.")
+        raise ValueError(
+            f"Unknown optimizer {name!r}; choose from {sorted(OPTIMIZERS)}."
+        )
     return OPTIMIZERS[name]

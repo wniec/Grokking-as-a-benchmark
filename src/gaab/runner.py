@@ -91,9 +91,13 @@ def _row_from_segments(segments, budget, problem, config, meta) -> dict:
         "grokked": grokked,
     }
     for target in config.accuracy_targets:
-        row[f"t_acc_{target:g}"] = an.hitting_time(segments, target, "test_accuracy", "above")
+        row[f"t_acc_{target:g}"] = an.hitting_time(
+            segments, target, "test_accuracy", "above"
+        )
     for target in an.objective_targets(hi):
-        row[f"t_obj_{target:.3g}"] = an.hitting_time(segments, target, "objective", "below")
+        row[f"t_obj_{target:.3g}"] = an.hitting_time(
+            segments, target, "objective", "below"
+        )
     return row
 
 
@@ -119,7 +123,9 @@ def run_single(
     elapsed = time.perf_counter() - started
 
     budget = min(config.budget, max(problem.state.evaluations, 1))
-    segments = an.segments_from_history(problem.history, budget, problem.random_guess_loss)
+    segments = an.segments_from_history(
+        problem.history, budget, problem.random_guess_loss
+    )
 
     meta = {
         "optimizer": optimizer,
@@ -248,7 +254,9 @@ def run_suite(
         os.path.join(output_dir, "ert.csv"), index=False
     )
     if verbose:
-        print(f"\nWrote {len(runs)} runs to {output_dir}/ in {time.perf_counter()-started:.0f}s")
+        print(
+            f"\nWrote {len(runs)} runs to {output_dir}/ in {time.perf_counter() - started:.0f}s"
+        )
     return runs, curves_df
 
 
@@ -280,6 +288,6 @@ def _report(done: int, total: int, row: dict, started: float) -> None:
         f"[{done:>5}/{total}] {row['optimizer']:<18} {row['problem']:<44} "
         f"i{row['instance']} r{row['run']} f={row['final_objective']:.4f} "
         f"test={row['final_test_accuracy']:.2f} aocc={row['aocc_objective']:.3f} "
-        f"| eta {eta/60:.1f}m",
+        f"| eta {eta / 60:.1f}m",
         flush=True,
     )

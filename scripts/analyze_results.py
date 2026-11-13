@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Build comparison tables and figures from a benchmark results directory.
 
-    python scripts/analyze_results.py --results results/benchmark
+python scripts/analyze_results.py --results results/benchmark
 """
 
 from __future__ import annotations
@@ -15,7 +15,9 @@ os.environ.setdefault("OMP_NUM_THREADS", "1")
 os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
 os.environ.setdefault("MKL_NUM_THREADS", "1")
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
+sys.path.insert(
+    0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src")
+)
 
 from gaab.cli import main  # noqa: E402
 

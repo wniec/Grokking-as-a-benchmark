@@ -30,7 +30,9 @@ os.environ.setdefault("OMP_NUM_THREADS", "1")
 os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
 os.environ.setdefault("MKL_NUM_THREADS", "1")
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
+sys.path.insert(
+    0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src")
+)
 
 import numpy as np  # noqa: E402
 
@@ -137,16 +139,24 @@ def run_bbob(algo, fids, dims, instances, reps, budget_factor, jobs, seed, out_d
 
     payloads = [
         (algo, fid, dim, inst, rep, budget_factor, seed)
-        for fid in fids for dim in dims for inst in instances for rep in range(reps)
+        for fid in fids
+        for dim in dims
+        for inst in instances
+        for rep in range(reps)
     ]
-    print(f"[bbob] {algo}: {len(payloads)} runs "
-          f"({len(fids)} functions x {len(dims)} dims x {len(instances)} instances x {reps} reps)")
+    print(
+        f"[bbob] {algo}: {len(payloads)} runs "
+        f"({len(fids)} functions x {len(dims)} dims x {len(instances)} instances x {reps} reps)"
+    )
     rows = []
     started = time.perf_counter()
     for done, row in enumerate(map_unordered(_bbob_worker, payloads, jobs), start=1):
         rows.append(row)
         if done % 50 == 0 or done == len(payloads):
-            print(f"[bbob] {algo}: {done}/{len(payloads)} ({time.perf_counter()-started:.0f}s)", flush=True)
+            print(
+                f"[bbob] {algo}: {done}/{len(payloads)} ({time.perf_counter() - started:.0f}s)",
+                flush=True,
+            )
 
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, f"{algo}.csv")
@@ -169,8 +179,12 @@ def run_gaab(algo, suite_path, budget, reps, instances, jobs, seed, out_dir):
 
     suite = load_suite(suite_path, instances=instances)
     config = RunConfig(
-        optimizers=[algo], budget=budget, repetitions=reps,
-        instances=instances, seed=seed, jobs=jobs,
+        optimizers=[algo],
+        budget=budget,
+        repetitions=reps,
+        instances=instances,
+        seed=seed,
+        jobs=jobs,
     )
     algo_dir = os.path.join(out_dir, algo)
     print(f"[gaab] {algo}: {len(suite.specs)} problems, budget {budget}, {reps} reps")
@@ -194,12 +208,16 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--algorithm", help="optimizer name (see --list)")
     parser.add_argument("--benchmark", choices=["gaab", "bbob", "both"], default="both")
-    parser.add_argument("--list", action="store_true", help="print the algorithm names and exit")
+    parser.add_argument(
+        "--list", action="store_true", help="print the algorithm names and exit"
+    )
     parser.add_argument("--output-dir", default="results/hpc")
     parser.add_argument("--jobs", type=int, default=1)
     parser.add_argument("--seed", type=int, default=42)
     # gaab
-    parser.add_argument("--suite", default=None, help="curated suite JSON (default: shipped)")
+    parser.add_argument(
+        "--suite", default=None, help="curated suite JSON (default: shipped)"
+    )
     parser.add_argument("--budget", type=int, default=60_000)
     parser.add_argument("--reps", type=int, default=15)
     parser.add_argument("--instances", type=int, nargs="+", default=None)
@@ -208,8 +226,12 @@ def main(argv=None) -> int:
     parser.add_argument("--bbob-dims", type=int, nargs="+", default=[5, 20, 40])
     parser.add_argument("--bbob-instances", type=int, nargs="+", default=[1, 2, 3])
     parser.add_argument("--bbob-reps", type=int, default=5)
-    parser.add_argument("--bbob-budget-factor", type=int, default=2000,
-                        help="BBOB budget = this * dimension")
+    parser.add_argument(
+        "--bbob-budget-factor",
+        type=int,
+        default=2000,
+        help="BBOB budget = this * dimension",
+    )
     args = parser.parse_args(argv)
 
     if args.list:
@@ -218,15 +240,33 @@ def main(argv=None) -> int:
     if not args.algorithm:
         parser.error("--algorithm is required (or pass --list)")
     if args.algorithm not in OPTIMIZERS:
-        parser.error(f"unknown algorithm {args.algorithm!r}; choose from {list(ALL_ALGORITHMS)}")
+        parser.error(
+            f"unknown algorithm {args.algorithm!r}; choose from {list(ALL_ALGORITHMS)}"
+        )
 
     if args.benchmark in ("gaab", "both"):
-        run_gaab(args.algorithm, args.suite, args.budget, args.reps,
-                 args.instances, args.jobs, args.seed, os.path.join(args.output_dir, "gaab"))
+        run_gaab(
+            args.algorithm,
+            args.suite,
+            args.budget,
+            args.reps,
+            args.instances,
+            args.jobs,
+            args.seed,
+            os.path.join(args.output_dir, "gaab"),
+        )
     if args.benchmark in ("bbob", "both"):
-        run_bbob(args.algorithm, _parse_fids(args.bbob_fids), args.bbob_dims,
-                 args.bbob_instances, args.bbob_reps, args.bbob_budget_factor,
-                 args.jobs, args.seed, os.path.join(args.output_dir, "bbob"))
+        run_bbob(
+            args.algorithm,
+            _parse_fids(args.bbob_fids),
+            args.bbob_dims,
+            args.bbob_instances,
+            args.bbob_reps,
+            args.bbob_budget_factor,
+            args.jobs,
+            args.seed,
+            os.path.join(args.output_dir, "bbob"),
+        )
     return 0
 
 

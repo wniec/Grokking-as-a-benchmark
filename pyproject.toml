@@ -13,6 +13,7 @@ dependencies = [
 
 [project.optional-dependencies]
 cma = ["cma>=3.3"]
+ela = ["pflacco>=1.2", "scikit-learn>=1.2"]
 dev = ["pytest>=7.4"]
 
 [project.scripts]

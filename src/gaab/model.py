@@ -63,7 +63,9 @@ def _act_grad(name: str, z: np.ndarray, a: np.ndarray) -> np.ndarray:
         c = 0.7978845608028654
         inner = c * (z + 0.044715 * z**3)
         t = np.tanh(inner)
-        return 0.5 * (1.0 + t) + 0.5 * z * (1.0 - t * t) * c * (1.0 + 3 * 0.044715 * z**2)
+        return 0.5 * (1.0 + t) + 0.5 * z * (1.0 - t * t) * c * (
+            1.0 + 3 * 0.044715 * z**2
+        )
     if name == "quad":
         return 2.0 * z
     raise ValueError(f"Unknown activation {name!r}.")
@@ -95,7 +97,9 @@ class ModelConfig:
             )
         # A frozen dataclass has to go through object.__setattr__ to normalize.
         object.__setattr__(
-            self, "rank_targets", tuple(t for t in RANK_TARGETS if t in self.rank_targets)
+            self,
+            "rank_targets",
+            tuple(t for t in RANK_TARGETS if t in self.rank_targets),
         )
 
 

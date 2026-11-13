@@ -28,7 +28,9 @@ os.environ.setdefault("OMP_NUM_THREADS", "1")
 os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
 os.environ.setdefault("MKL_NUM_THREADS", "1")
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
+sys.path.insert(
+    0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src")
+)
 
 import ioh  # noqa: E402
 import numpy as np  # noqa: E402
@@ -45,7 +47,14 @@ FUNCTIONS = {
     "different_powers": 14,
 }
 
-DEFAULT_SOLVERS = ("cma_es", "sep_cma_es", "lm_cma_es", "lm_ma_es", "sep_nes", "random_search")
+DEFAULT_SOLVERS = (
+    "cma_es",
+    "sep_cma_es",
+    "lm_cma_es",
+    "lm_ma_es",
+    "sep_nes",
+    "random_search",
+)
 
 
 class _Unbounded(ioh.problem.RealSingleObjective):
@@ -113,7 +122,9 @@ def report(frame) -> int:
     """Check the qualitative expectations; returns a process exit code."""
     failures = []
     for n, per_dim in frame.groupby("dimension"):
-        pivot = per_dim.pivot_table(index="function", columns="solver", values="median_gap")
+        pivot = per_dim.pivot_table(
+            index="function", columns="solver", values="median_gap"
+        )
 
         for solver in ("cma_es", "sep_cma_es", "lm_cma_es", "lm_ma_es"):
             if solver in pivot and pivot.loc["sphere", solver] > 1e-5:
@@ -142,8 +153,12 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--solvers", nargs="+", default=list(DEFAULT_SOLVERS))
     parser.add_argument("--dimensions", type=int, nargs="+", default=[128])
-    parser.add_argument("--budget-factor", type=int, default=100,
-                        help="budget = this many evaluations per dimension")
+    parser.add_argument(
+        "--budget-factor",
+        type=int,
+        default=100,
+        help="budget = this many evaluations per dimension",
+    )
     parser.add_argument("--reps", type=int, default=2)
     parser.add_argument("--out", default="results/optimizer_validation.csv")
     args = parser.parse_args(argv)

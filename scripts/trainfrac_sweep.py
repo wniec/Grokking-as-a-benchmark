@@ -24,7 +24,9 @@ os.environ.setdefault("OMP_NUM_THREADS", "1")
 os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
 os.environ.setdefault("MKL_NUM_THREADS", "1")
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
+sys.path.insert(
+    0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src")
+)
 
 import numpy as np  # noqa: E402
 
@@ -48,9 +50,7 @@ MAX_VARIABLES = 200
 
 def _worker(payload):
     p, shape_label, shape, tf, instance, settings = payload
-    spec = ProblemSpec(
-        p=p, reg_strength=REG, train_frac=tf, activation="quad", **shape
-    )
+    spec = ProblemSpec(p=p, reg_strength=REG, train_frac=tf, activation="quad", **shape)
     report = screen_problem(spec, instance=instance, settings=settings)
     return {
         "p": p,
@@ -73,7 +73,9 @@ def run(steps, instances, jobs):
     payloads = []
     for p in PRIMES:
         for label, shape in SHAPES.items():
-            spec = ProblemSpec(p=p, reg_strength=REG, train_frac=0.6, activation="quad", **shape)
+            spec = ProblemSpec(
+                p=p, reg_strength=REG, train_frac=0.6, activation="quad", **shape
+            )
             if spec.n_variables > MAX_VARIABLES:
                 continue
             for tf in TRAIN_FRACS:
@@ -91,25 +93,33 @@ def optimum_table(frame):
     """Best train_frac per (p, shape) cell, by grok rate then delay."""
     import pandas as pd
 
-    cell = frame.groupby(["p", "shape", "train_frac"]).agg(
-        grok_rate=("is_grok", "mean"),
-        median_delay=("delay_ratio", lambda s: np.nanmedian(s[np.isfinite(s)])),
-    ).reset_index()
+    cell = (
+        frame.groupby(["p", "shape", "train_frac"])
+        .agg(
+            grok_rate=("is_grok", "mean"),
+            median_delay=("delay_ratio", lambda s: np.nanmedian(s[np.isfinite(s)])),
+        )
+        .reset_index()
+    )
     rows = []
     for (p, shape), g in cell.groupby(["p", "shape"]):
         g = g.sort_values(["grok_rate", "median_delay"], ascending=False)
         best = g.iloc[0]
-        rows.append({
-            "p": p, "shape": shape,
-            "best_train_frac": best["train_frac"],
-            "best_grok_rate": round(float(best["grok_rate"]), 3),
-            "grokked_at_any_frac": bool((g["grok_rate"] > 0).any()),
-        })
+        rows.append(
+            {
+                "p": p,
+                "shape": shape,
+                "best_train_frac": best["train_frac"],
+                "best_grok_rate": round(float(best["grok_rate"]), 3),
+                "grokked_at_any_frac": bool((g["grok_rate"] > 0).any()),
+            }
+        )
     return pd.DataFrame(rows), cell
 
 
 def plot(cell, out_path):
     import matplotlib
+
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
@@ -119,7 +129,9 @@ def plot(cell, out_path):
     primes = sorted(cell["p"].unique())
     colors = {p: PALETTE[i % len(PALETTE)] for i, p in enumerate(primes)}
     shapes = ["small", "mid", "large"]
-    fig, axes = plt.subplots(1, len(shapes), figsize=(4.6 * len(shapes), 4.4), sharey=True)
+    fig, axes = plt.subplots(
+        1, len(shapes), figsize=(4.6 * len(shapes), 4.4), sharey=True
+    )
 
     for ax, shape in zip(axes, shapes):
         sub = cell[cell["shape"] == shape]
@@ -127,16 +139,29 @@ def plot(cell, out_path):
             g = sub[sub["p"] == p].sort_values("train_frac")
             if not len(g):
                 continue
-            ax.plot(g["train_frac"], g["grok_rate"], color=colors[p], marker="o",
-                    markersize=5, markeredgecolor=SURFACE, markeredgewidth=0.7,
-                    label=f"p={p}")
+            ax.plot(
+                g["train_frac"],
+                g["grok_rate"],
+                color=colors[p],
+                marker="o",
+                markersize=5,
+                markeredgecolor=SURFACE,
+                markeredgewidth=0.7,
+                label=f"p={p}",
+            )
         ax.set_title(f"{shape} network", loc="left")
         ax.set_xlabel("train_frac")
         ax.set_ylim(-0.02, 1.02)
     axes[0].set_ylabel("grok rate")
     axes[-1].legend(title="", loc="upper left", fontsize=8)
-    fig.suptitle("Best train/test split for grokking shifts with p and network size",
-                 x=0.01, ha="left", fontsize=12, color=TEXT_PRIMARY, weight="bold")
+    fig.suptitle(
+        "Best train/test split for grokking shifts with p and network size",
+        x=0.01,
+        ha="left",
+        fontsize=12,
+        color=TEXT_PRIMARY,
+        weight="bold",
+    )
     fig.tight_layout(rect=(0, 0, 1, 0.95))
     fig.savefig(out_path, dpi=160)
     plt.close(fig)
@@ -152,8 +177,10 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     os.makedirs(args.out_dir, exist_ok=True)
-    print(f"train_frac sweep: {len(PRIMES)} primes x {len(SHAPES)} shapes x "
-          f"{len(TRAIN_FRACS)} fracs x {args.instances} instances at reg={REG}")
+    print(
+        f"train_frac sweep: {len(PRIMES)} primes x {len(SHAPES)} shapes x "
+        f"{len(TRAIN_FRACS)} fracs x {args.instances} instances at reg={REG}"
+    )
     frame = run(args.steps, args.instances, args.jobs)
     frame.to_csv(os.path.join(args.out_dir, "runs.csv"), index=False)
     optima, cell = optimum_table(frame)
@@ -162,6 +189,7 @@ def main(argv=None):
     path = plot(cell, os.path.join(args.out_dir, "trainfrac_sweep.png"))
 
     import pandas as pd
+
     with pd.option_context("display.width", 200):
         print("\nBest train_frac per (p, shape) cell:")
         print(optima.to_string(index=False))

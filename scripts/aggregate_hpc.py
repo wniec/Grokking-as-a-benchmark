@@ -17,7 +17,9 @@ import glob
 import os
 import sys
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
+sys.path.insert(
+    0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src")
+)
 
 import numpy as np  # noqa: E402
 
@@ -40,7 +42,9 @@ def kendall_tau(a, b) -> float:
                 concordant += 1
             else:
                 discordant += 1
-    denom = np.sqrt((concordant + discordant + ties_a) * (concordant + discordant + ties_b))
+    denom = np.sqrt(
+        (concordant + discordant + ties_a) * (concordant + discordant + ties_b)
+    )
     return float((concordant - discordant) / denom) if denom else float("nan")
 
 
@@ -59,13 +63,17 @@ def load_gaab(hpc_dir):
     if not files:
         return None
     runs = pd.concat([pd.read_csv(f) for f in files], ignore_index=True)
-    return runs.groupby("optimizer").agg(
-        gaab_aocc_objective=("aocc_objective", "mean"),
-        gaab_aocc_test_accuracy=("aocc_test_accuracy", "mean"),
-        gaab_best_test_accuracy=("best_test_accuracy", "mean"),
-        gaab_grokked_fraction=("grokked", "mean"),
-        gaab_runs=("run", "count"),
-    ).reset_index()
+    return (
+        runs.groupby("optimizer")
+        .agg(
+            gaab_aocc_objective=("aocc_objective", "mean"),
+            gaab_aocc_test_accuracy=("aocc_test_accuracy", "mean"),
+            gaab_best_test_accuracy=("best_test_accuracy", "mean"),
+            gaab_grokked_fraction=("grokked", "mean"),
+            gaab_runs=("run", "count"),
+        )
+        .reset_index()
+    )
 
 
 def load_bbob(hpc_dir):
@@ -75,11 +83,15 @@ def load_bbob(hpc_dir):
     if not files:
         return None
     runs = pd.concat([pd.read_csv(f) for f in files], ignore_index=True)
-    return runs.groupby("optimizer").agg(
-        bbob_aocc_objective=("aocc_objective", "mean"),
-        bbob_final_gap_median=("final_gap", "median"),
-        bbob_runs=("optimizer", "count"),
-    ).reset_index()
+    return (
+        runs.groupby("optimizer")
+        .agg(
+            bbob_aocc_objective=("aocc_objective", "mean"),
+            bbob_final_gap_median=("final_gap", "median"),
+            bbob_runs=("optimizer", "count"),
+        )
+        .reset_index()
+    )
 
 
 def main(argv=None) -> int:
@@ -87,19 +99,27 @@ def main(argv=None) -> int:
 
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--hpc-dir", default="results/hpc")
-    parser.add_argument("--out", default=None, help="comparison CSV (default: <hpc-dir>/comparison.csv)")
+    parser.add_argument(
+        "--out", default=None, help="comparison CSV (default: <hpc-dir>/comparison.csv)"
+    )
     args = parser.parse_args(argv)
 
     gaab, bbob = load_gaab(args.hpc_dir), load_bbob(args.hpc_dir)
     if gaab is None and bbob is None:
-        raise SystemExit(f"No results found under {args.hpc_dir}. Run the array job first.")
+        raise SystemExit(
+            f"No results found under {args.hpc_dir}. Run the array job first."
+        )
 
     if gaab is not None and bbob is not None:
         table = gaab.merge(bbob, on="optimizer", how="outer")
     else:
         table = gaab if gaab is not None else bbob
 
-    sort_col = "gaab_aocc_objective" if "gaab_aocc_objective" in table else "bbob_aocc_objective"
+    sort_col = (
+        "gaab_aocc_objective"
+        if "gaab_aocc_objective" in table
+        else "bbob_aocc_objective"
+    )
     table = table.sort_values(sort_col, ascending=False).reset_index(drop=True)
 
     out = args.out or os.path.join(args.hpc_dir, "comparison.csv")
@@ -114,14 +134,20 @@ def main(argv=None) -> int:
         # Compare only the methods that ran on both (BBOB skips the gradient reference).
         common = common[common["optimizer"] != "adam"]
         if len(common) >= 3:
-            tau = kendall_tau(common["gaab_aocc_objective"], common["bbob_aocc_objective"])
+            tau = kendall_tau(
+                common["gaab_aocc_objective"], common["bbob_aocc_objective"]
+            )
             rho = spearman(common["gaab_aocc_objective"], common["bbob_aocc_objective"])
-            print(f"\nRanking agreement over {len(common)} black-box methods "
-                  f"(gaab AOCC vs BBOB AOCC):")
+            print(
+                f"\nRanking agreement over {len(common)} black-box methods "
+                f"(gaab AOCC vs BBOB AOCC):"
+            )
             print(f"  Kendall tau  = {tau:+.3f}")
             print(f"  Spearman rho = {rho:+.3f}")
-            print("  (low/negative => the grokking benchmark ranks optimizers "
-                  "differently than BBOB -- evidence it measures something new)")
+            print(
+                "  (low/negative => the grokking benchmark ranks optimizers "
+                "differently than BBOB -- evidence it measures something new)"
+            )
     print(f"\nWrote {out}")
     return 0
 

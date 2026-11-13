@@ -43,7 +43,9 @@ def hessian_vector_product(
     """``H v`` by a central difference of the exact gradient -- two grad calls."""
     theta = np.asarray(theta, dtype=np.float64)
     scale = eps * (1.0 + np.linalg.norm(theta)) / max(np.linalg.norm(v), 1e-12)
-    return (_grad(obj, theta + scale * v) - _grad(obj, theta - scale * v)) / (2.0 * scale)
+    return (_grad(obj, theta + scale * v) - _grad(obj, theta - scale * v)) / (
+        2.0 * scale
+    )
 
 
 def hessian(obj: GrokkingObjective, theta: np.ndarray, eps: float = 1e-5) -> np.ndarray:
@@ -67,8 +69,8 @@ class Spectrum:
     min: float
     max: float
     n_negative: int
-    index: float           # fraction of eigenvalues that are negative
-    n_flat: int            # eigenvalues indistinguishable from zero (a flat plateau direction)
+    index: float  # fraction of eigenvalues that are negative
+    n_flat: int  # eigenvalues indistinguishable from zero (a flat plateau direction)
 
     @property
     def kind(self) -> str:
@@ -179,7 +181,9 @@ def find_critical_point(
             step *= 0.5
         if not accepted:  # cannot make progress -> we are at a critical point
             break
-    return Descent(theta, float(obj(theta)), float(np.linalg.norm(g)), t, np.empty((0, 2)))
+    return Descent(
+        theta, float(obj(theta)), float(np.linalg.norm(g)), t, np.empty((0, 2))
+    )
 
 
 def restart_minima(
@@ -217,20 +221,28 @@ def count_distinct(values, rel_tol: float = 1e-3) -> int:
 # ---------------------------------------------------------------------------
 # plateaus: gradient-norm sampling and low-dimensional slices
 # ---------------------------------------------------------------------------
-def gradient_norms(
-    obj: GrokkingObjective, thetas: np.ndarray
-) -> np.ndarray:
-    return np.array([np.linalg.norm(obj.loss_and_grad(t)[1]) for t in np.atleast_2d(thetas)])
+def gradient_norms(obj: GrokkingObjective, thetas: np.ndarray) -> np.ndarray:
+    return np.array(
+        [np.linalg.norm(obj.loss_and_grad(t)[1]) for t in np.atleast_2d(thetas)]
+    )
 
 
 def sample_points(obj, n_points, scale=1.0, seed=0):
     rng = np.random.default_rng(seed)
-    return np.array([obj.initial_theta(seed=int(rng.integers(1 << 30)), scale=scale)
-                     for _ in range(n_points)])
+    return np.array(
+        [
+            obj.initial_theta(seed=int(rng.integers(1 << 30)), scale=scale)
+            for _ in range(n_points)
+        ]
+    )
 
 
 def line_profile(
-    obj: GrokkingObjective, a: np.ndarray, b: np.ndarray, n: int = 101, extend: float = 0.0
+    obj: GrokkingObjective,
+    a: np.ndarray,
+    b: np.ndarray,
+    n: int = 101,
+    extend: float = 0.0,
 ):
     """Objective along the segment ``a -> b`` (optionally extended past the ends).
 
@@ -269,7 +281,8 @@ def characterize(
     saddle_indices, kinds = [], []
     for _ in range(n_critical):
         cp = find_critical_point(
-            obj, obj.initial_theta(seed=int(rng.integers(1 << 30)), scale=1.0),
+            obj,
+            obj.initial_theta(seed=int(rng.integers(1 << 30)), scale=1.0),
             steps=critical_steps,
         )
         if cp.grad_norm < 0.2:  # keep only genuine (near-)critical points
@@ -285,8 +298,12 @@ def characterize(
         "global_objective": round(global_f, 5),
         "worst_basin_gap": round(float(finals.max() - global_f), 5),
         "n_critical_points": len(saddle_indices),
-        "frac_saddles": float(np.mean([k == "saddle" for k in kinds])) if kinds else float("nan"),
-        "median_saddle_index": float(np.median(saddle_indices)) if saddle_indices else float("nan"),
+        "frac_saddles": float(np.mean([k == "saddle" for k in kinds]))
+        if kinds
+        else float("nan"),
+        "median_saddle_index": float(np.median(saddle_indices))
+        if saddle_indices
+        else float("nan"),
         "min_index": round(min_spec.index, 4),
         "min_flat_directions": int(min_spec.n_flat),
     }
@@ -320,3 +337,242 @@ def plane_slice(
         for j, b in enumerate(ts):
             Z[i, j] = obj(center + a * u + b * w)
     return ts, Z
+
+
+def _adam_path(obj, theta0, steps=5000, lr=1e-2, sample_every=25, tol=1e-6):
+    """Adam descent that records the parameter iterates (for trajectory PCA)."""
+    theta = np.array(theta0, dtype=np.float64, copy=True)
+    m = np.zeros_like(theta)
+    v = np.zeros_like(theta)
+    loss_traj, iterates = [], []
+    t = 0
+    for t in range(1, steps + 1):
+        loss, g = obj.loss_and_grad(theta)
+        if t == 1 or t % sample_every == 0:
+            loss_traj.append((t, loss))
+            iterates.append(theta.copy())
+        if not np.isfinite(loss) or float(np.linalg.norm(g)) < tol:
+            break
+        m = 0.9 * m + 0.1 * g
+        v = 0.999 * v + 0.001 * g * g
+        theta = theta - lr * (m / (1 - 0.9**t)) / (np.sqrt(v / (1 - 0.999**t)) + 1e-8)
+    iterates.append(theta.copy())
+    loss_traj.append((t, float(obj(theta))))
+    return theta, np.array(loss_traj), np.array(iterates)
+
+
+def descent_path(
+    obj,
+    theta0,
+    steps: int = 8000,
+    lr: float = 1e-2,
+    sample_every: int = 25,
+    tol: float = 1e-6,
+):
+    """Adam descent returning ``(theta_star, loss_curve, iterates)``.
+
+    Public wrapper over the iterate-recording descent: ``loss_curve`` is the
+    ``(step, objective)`` history and ``iterates`` the sampled parameter vectors,
+    ready for :func:`trajectory_variance` / :func:`trajectory_pca_plane`.
+    """
+    return _adam_path(
+        obj, theta0, steps=steps, lr=lr, sample_every=sample_every, tol=tol
+    )
+
+
+def hessian_eigen_plane(obj, center, n: int = 37, span: float = 0.5, eps: float = 1e-5):
+    """Objective on a 2D grid over two *exact-Hessian eigenvectors* at ``center``.
+
+    Axis 1 is the most positive-curvature eigenvector (the steepest wall), axis 2
+    the most negative one -- the descending direction of a saddle, or, at a true
+    minimum, the flattest direction (the plateau the valley stretches along).
+    Unlike a random slice this is guaranteed to intersect the curvature structure
+    the spectrum reports, so the saddle / flat-valley shape is actually visible.
+    Returns ``(ts, Z, (lambda_max, lambda_min))``.
+    """
+    center = np.asarray(center, float)
+    H = hessian(obj, center, eps=eps)
+    evals, evecs = np.linalg.eigh(H)  # ascending eigenvalues
+    v_pos = evecs[:, -1]  # most positive curvature
+    v_neg = evecs[:, 0]  # most negative (least positive) curvature
+    radius = span * (np.linalg.norm(center) + 1.0)
+    ts = np.linspace(-radius, radius, n)
+    Z = np.empty((n, n))
+    for i, b in enumerate(ts):
+        for j, a in enumerate(ts):
+            Z[i, j] = obj(center + a * v_pos + b * v_neg)
+    return ts, Z, (float(evals[-1]), float(evals[0]))
+
+
+def trajectory_variance(iterates, center=None):
+    """PCA explained-variance ratios of an optimizer trajectory (descending).
+
+    PCA on ``theta_t - center`` (default: the final iterate); the ratios say how
+    many dimensions the descent path really occupies -- the intrinsic dimension
+    of the optimization *dynamics*, as opposed to the parameter count.
+    """
+    iterates = np.asarray(iterates, float)
+    center = iterates[-1] if center is None else np.asarray(center, float)
+    deltas = iterates - center
+    sv = np.linalg.svd(deltas, full_matrices=False)[1]
+    total = float(np.sum(sv**2))
+    if total == 0.0:
+        return np.zeros(sv.size)
+    return (sv**2) / total
+
+
+def trajectory_pca_plane(obj, iterates, center=None, n: int = 37, pad: float = 0.35):
+    """Objective over the top-2 PCA directions of an optimizer trajectory.
+
+    PCA on the iterates ``theta_t - center`` gives the plane the optimizer
+    actually moved in (Li et al., 2018) -- the informative directions, not random
+    ones.  Returns ``(xs, ys, Z, path_xy, var_ratio)``: the grid axes, the
+    objective grid, the trajectory projected into the plane (for overlay), and
+    the fraction of trajectory variance the two components capture.
+    """
+    iterates = np.asarray(iterates, float)
+    center = iterates[-1] if center is None else np.asarray(center, float)
+    deltas = iterates - center
+    # top-2 principal directions of the path (SVD of the centered iterates)
+    _, sv, vt = np.linalg.svd(deltas, full_matrices=False)
+    pc1, pc2 = vt[0], vt[1]
+    var_ratio = float((sv[0] ** 2 + sv[1] ** 2) / np.sum(sv**2)) if sv.size > 1 else 1.0
+    path_xy = deltas @ np.vstack([pc1, pc2]).T  # (k, 2) path in-plane
+
+    def axis(coord):
+        lo, hi = float(coord.min()), float(coord.max())
+        span = (hi - lo) or 1.0
+        return np.linspace(lo - pad * span, hi + pad * span, n)
+
+    xs, ys = axis(path_xy[:, 0]), axis(path_xy[:, 1])
+    Z = np.empty((n, n))
+    for i, b in enumerate(ys):
+        for j, a in enumerate(xs):
+            Z[i, j] = obj(center + a * pc1 + b * pc2)
+    return xs, ys, Z, path_xy, var_ratio
+
+
+def problem_figure(
+    obj, title: str, out_path: str, seed: int = 0, descent_steps: int = 5000
+):
+    """A compact, per-problem landscape picture -- cheap enough to run on every
+    problem during analysis.
+
+    Four panels, all anchored on a quickly-found low point: a 2D slice over the
+    two **exact-Hessian eigenvectors** (the real curvature structure), a 2D slice
+    over the top-2 **PCA directions of the descent trajectory** with the path
+    overlaid (the directions the optimizer actually moved in; Li et al., 2018),
+    the descent curve, and the 1D init->solution profile.  Both planes are
+    meaningful directions, not the near-orthogonal-to-everything random vectors a
+    high-dimensional random slice gives.  No multi-start restarts, so it is fast;
+    the population statistics live in ``characterize`` / the sweep.
+    """
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    from gaab.plots import PALETTE, TEXT_MUTED, TEXT_PRIMARY, _style
+
+    _style()
+    blue = PALETTE[0]
+    theta0 = obj.initial_theta(seed=seed, scale=1.0)
+    theta_star, loss_traj, iterates = _adam_path(
+        obj,
+        theta0,
+        steps=descent_steps,
+        sample_every=25,
+    )
+    hs, hZ, (lam_max, lam_min) = hessian_eigen_plane(obj, theta_star, n=37, span=0.5)
+    xs, ys, pZ, path_xy, var_ratio = trajectory_pca_plane(
+        obj, iterates, center=theta_star, n=37
+    )
+    alphas, profile = line_profile(obj, theta0, theta_star, n=81)
+
+    fig, axes = plt.subplots(2, 2, figsize=(10.5, 8.2))
+
+    # (0,0) Hessian-eigenvector plane
+    ax = axes[0, 0]
+    extent = [hs[0], hs[-1], hs[0], hs[-1]]
+    im = ax.imshow(hZ, origin="lower", extent=extent, aspect="auto", cmap="viridis")
+    ax.contour(hs, hs, hZ, levels=10, colors="white", linewidths=0.4, alpha=0.5)
+    ax.plot(0, 0, "*", color="white", markersize=12, markeredgecolor="black")
+    fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04, label="objective")
+    ax.set_xlabel(f"Hessian eigvec, max curv (λ={lam_max:.2g})")
+    ax.set_ylabel(f"min curv (λ={lam_min:.2g})")
+    ax.set_title(
+        "Hessian-eigenvector slice (curvature structure)",
+        loc="left",
+        fontsize=10,
+        color=TEXT_PRIMARY,
+    )
+
+    # (0,1) trajectory-PCA plane with the descent path overlaid
+    ax = axes[0, 1]
+    extent = [xs[0], xs[-1], ys[0], ys[-1]]
+    im = ax.imshow(pZ, origin="lower", extent=extent, aspect="auto", cmap="viridis")
+    ax.contour(xs, ys, pZ, levels=10, colors="white", linewidths=0.4, alpha=0.4)
+    ax.plot(path_xy[:, 0], path_xy[:, 1], color="white", lw=1.6, alpha=0.9)
+    ax.plot(
+        path_xy[0, 0],
+        path_xy[0, 1],
+        "o",
+        color="white",
+        markersize=6,
+        markeredgecolor="black",
+        label="init",
+    )
+    ax.plot(
+        0,
+        0,
+        "*",
+        color="white",
+        markersize=12,
+        markeredgecolor="black",
+        label="solution",
+    )
+    fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04, label="objective")
+    ax.set_xlabel("trajectory PC1")
+    ax.set_ylabel("trajectory PC2")
+    ax.legend(loc="upper right", fontsize=7, framealpha=0.6)
+    ax.set_title(
+        f"Trajectory-PCA slice + path ({var_ratio:.0%} of path var)",
+        loc="left",
+        fontsize=10,
+        color=TEXT_PRIMARY,
+    )
+
+    # (1,0) descent curve
+    ax = axes[1, 0]
+    if len(loss_traj):
+        ax.plot(loss_traj[:, 0], loss_traj[:, 1], color=blue, lw=1.8)
+    ax.set_xscale("log")
+    ax.set_xlabel("gradient step")
+    ax.set_ylabel("objective")
+    ax.set_title(
+        "descent curve (plateau before the drop)",
+        loc="left",
+        fontsize=10,
+        color=TEXT_PRIMARY,
+    )
+
+    # (1,1) 1D init -> solution profile
+    ax = axes[1, 1]
+    ax.plot(alphas, profile, color=blue, lw=1.8)
+    ax.axvspan(0, 1, color=TEXT_MUTED, alpha=0.06)
+    ax.set_xlabel("interpolation  init (0) -> solution (1)")
+    ax.set_ylabel("objective")
+    ax.set_title(
+        "1D profile (flat stretch = plateau)",
+        loc="left",
+        fontsize=10,
+        color=TEXT_PRIMARY,
+    )
+
+    fig.suptitle(
+        title, x=0.01, ha="left", fontsize=12, color=TEXT_PRIMARY, weight="bold"
+    )
+    fig.tight_layout(rect=(0, 0, 1, 0.95))
+    fig.savefig(out_path, dpi=140)
+    plt.close(fig)
+    return out_path

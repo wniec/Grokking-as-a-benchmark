@@ -37,6 +37,8 @@ src/gaab/
   runner.py      run a family x optimizers, write CSVs
   analysis.py    AOCC, ERT, ECDF, aggregation
   landscape.py   Hessian/eigen-spectra, saddle & local-optima diagnostics
+  ela.py         sample-based ELA features (pflacco) -- the BBOB descriptor space
+  projection.py  random-subspace reparameterization (arbitrary search dim)
   plots.py       the figures
   cli.py         `python -m gaab.cli screen | run | analyze | suite | optimizers`
 scripts/
@@ -49,6 +51,8 @@ scripts/
   curate_suite.py     stratified-subsample a screened suite
   landscape_analysis.py  plateaus / saddles / local optima on one problem (figures)
   landscape_sweep.py     the same diagnostics across the whole suite (population stats)
+  ela_features.py        ELA features across the suite + BBOB (feature-space comparison)
+  trajectory_dim.py      intrinsic dimension of the descent trajectory (PCA of iterates)
   run_one_algorithm.py  run ONE optimizer on gaab and/or BBOB (HPC array unit)
   aggregate_hpc.py    combine per-algorithm HPC results + gaab-vs-BBOB ranking
 hpc/                  Slurm array job (all optimizers x both benchmarks), see hpc/README.md
@@ -85,7 +89,7 @@ Output in `results/benchmark/`:
 | `curves.csv` | incumbent loss / train accuracy / test accuracy on a log-spaced budget grid |
 | `summary.csv` | per-optimizer aggregate |
 | `ert.csv` | ERT and success rate per (optimizer, problem, accuracy target) |
-| `figures/` | with `--plots` |
+| `figures/` | with `--plots`; `figures/landscape/<problem>.png` is a per-problem landscape picture (Hessian-eigenvector slice, trajectory-PCA slice with the descent path, descent curve, 1D profile), added by `analyze` |
 | `ioh/` | with `--ioh-logs`: IOHprofiler-format data, openable in IOHanalyzer |
 
 ## IOH compatibility
@@ -106,10 +110,10 @@ logger = ioh.logger.Analyzer(root="results", folder_name="cma", algorithm_name="
 watcher = IncumbentWatcher()
 logger.watch(watcher, list(GrokkingProblem.WATCHED))
 
-for problem in suite:                      # iterates (spec, instance) pairs
+for problem in suite:  # iterates (spec, instance) pairs
     watcher.problem = problem
     problem.attach_logger(logger)
-    my_optimizer(problem, budget=20_000)   # problem(x) -> float
+    my_optimizer(problem, budget=20_000)  # problem(x) -> float
     problem.detach_logger()
     problem.reset()
 logger.close()
@@ -200,6 +204,15 @@ Four knobs define the family:
   restriction at all, so it silently degenerates back to the dense matrix
   rather than wasting parameters.
 * **`embed_dim` / `hidden_dim` / `train_frac`** — width and data budget.
+* **`projection_dim`** — optionally reparameterize the search as a random
+  low-rank subspace, `theta = theta0 + P z` with `P` a fixed rank-`d`
+  projection (Li et al., 2018). The optimizer then works in **any** target
+  dimension `d` you set — far below the parameter count (a hard low-rank
+  restriction) or above it (over-complete) — while the task is unchanged.
+  `d` is itself a difficulty lever: too small and no solution fits the
+  subspace, enough and the problem groks. The gradient pulls back exactly
+  (`grad_z = P^T grad_theta`), so screening and the landscape tools apply
+  through it. Set it on any `ProblemSpec(projection_dim=...)`.
 
 ### Which matrix the rank restricts matters more than the rank does
 
@@ -376,9 +389,11 @@ Three things make this a benchmark rather than a leaderboard:
 ```python
 from gaab.optimizers import OPTIMIZERS
 
+
 def my_solver(problem, budget, rng, x0=None, **kw):
-    ...                       # call problem(x) at most `budget` times
+    ...  # call problem(x) at most `budget` times
     return best_x
+
 
 OPTIMIZERS["my_solver"] = my_solver
 ```
@@ -409,3 +424,9 @@ lists what is registered.
   Evolution Strategies* (separable NES).
 * de Nobel et al. (2024), *IOHexperimenter: Benchmarking Platform for Iterative
   Optimization Heuristics*.
+* Li et al. (2018), *Visualizing the Loss Landscape of Neural Nets* (trajectory
+  PCA directions, filter normalization).
+* Mersmann et al. (2011), *Exploring the Optimization Landscape through ELA*
+  (Exploratory Landscape Analysis).
+* Kerschke & Trautmann (2019), *Comprehensive Feature-Based Landscape Analysis
+  with flacco* (the pflacco / flacco feature sets).

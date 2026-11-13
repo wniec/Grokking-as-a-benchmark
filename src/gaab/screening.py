@@ -110,7 +110,9 @@ def adam_trajectory(
     return theta, trace
 
 
-def _first_step(trace: Sequence[dict[str, float]], key: str, threshold: float) -> int | None:
+def _first_step(
+    trace: Sequence[dict[str, float]], key: str, threshold: float
+) -> int | None:
     for row in trace:
         if row[key] >= threshold:
             return int(row["step"])
@@ -177,7 +179,9 @@ def screen_problem(
         delay_ratio=ratio,
         final_train_accuracy=float(last.get("train_accuracy", float("nan"))),
         final_test_accuracy=float(last.get("test_accuracy", float("nan"))),
-        best_test_accuracy=float(max((r["test_accuracy"] for r in trace), default=float("nan"))),
+        best_test_accuracy=float(
+            max((r["test_accuracy"] for r in trace), default=float("nan"))
+        ),
         final_objective=float(last.get("objective", float("nan"))),
         verdict=verdict,
     )
@@ -277,7 +281,11 @@ def filter_specs(
     spec_instances: dict[str, list[int]] = {}
     for name in keep_names:
         rows = reports[reports["problem"] == name]
-        chosen = rows.loc[rows["is_grokking"], "instance"] if instance_level else rows["instance"]
+        chosen = (
+            rows.loc[rows["is_grokking"], "instance"]
+            if instance_level
+            else rows["instance"]
+        )
         spec_instances[name] = sorted(int(i) for i in chosen)
 
     summary["kept_instances"] = summary["problem"].map(

@@ -171,7 +171,9 @@ def plot_convergence(curves, out_path: str, max_problems: int = 9, log_y: bool =
     _style()
     problems = _problem_order(curves, max_problems)
     rows, cols = _grid_shape(len(problems))
-    fig, axes = plt.subplots(rows, cols, figsize=(4.1 * cols, 3.0 * rows), squeeze=False)
+    fig, axes = plt.subplots(
+        rows, cols, figsize=(4.1 * cols, 3.0 * rows), squeeze=False
+    )
     colors = color_map(curves["optimizer"].unique())
 
     for ax, problem in zip(axes.ravel(), problems):
@@ -195,7 +197,11 @@ def plot_convergence(curves, out_path: str, max_problems: int = 9, log_y: bool =
     fig.legend(handles, labels, loc="lower center", ncol=min(len(labels), 6))
     fig.suptitle(
         "Convergence on the objective the optimizer actually minimizes",
-        x=0.01, ha="left", fontsize=12, color=TEXT_PRIMARY, weight="bold",
+        x=0.01,
+        ha="left",
+        fontsize=12,
+        color=TEXT_PRIMARY,
+        weight="bold",
     )
     fig.tight_layout(rect=(0, 0.06, 1, 0.96))
     fig.savefig(out_path, dpi=160)
@@ -210,7 +216,9 @@ def plot_generalization(curves, out_path: str, max_problems: int = 9):
     _style()
     problems = _problem_order(curves, max_problems)
     rows, cols = _grid_shape(len(problems))
-    fig, axes = plt.subplots(rows, cols, figsize=(4.1 * cols, 3.0 * rows), squeeze=False)
+    fig, axes = plt.subplots(
+        rows, cols, figsize=(4.1 * cols, 3.0 * rows), squeeze=False
+    )
     colors = color_map(curves["optimizer"].unique())
 
     for ax, problem in zip(axes.ravel(), problems):
@@ -219,8 +227,12 @@ def plot_generalization(curves, out_path: str, max_problems: int = 9):
             ax.plot(g["evaluations"], g["test_accuracy"], color=colors[opt], label=opt)
         ax.axhline(0.95, color=TEXT_MUTED, lw=0.9, ls=(0, (4, 3)))
         ax.annotate(
-            "grokked (95%)", xy=(1, 0.95), xytext=(2, 3), textcoords="offset points",
-            color=TEXT_MUTED, fontsize=7.5,
+            "grokked (95%)",
+            xy=(1, 0.95),
+            xytext=(2, 3),
+            textcoords="offset points",
+            color=TEXT_MUTED,
+            fontsize=7.5,
         )
         ax.set_xscale("log")
         ax.set_ylim(0, 1.02)
@@ -235,7 +247,11 @@ def plot_generalization(curves, out_path: str, max_problems: int = 9):
     fig.legend(handles, labels, loc="lower center", ncol=min(len(labels), 6))
     fig.suptitle(
         "Generalization: held-out accuracy never enters the objective",
-        x=0.01, ha="left", fontsize=12, color=TEXT_PRIMARY, weight="bold",
+        x=0.01,
+        ha="left",
+        fontsize=12,
+        color=TEXT_PRIMARY,
+        weight="bold",
     )
     fig.tight_layout(rect=(0, 0.06, 1, 0.96))
     fig.savefig(out_path, dpi=160)
@@ -256,7 +272,9 @@ def plot_grokking_gap(curves, out_path: str, max_optimizers: int | None = None):
     if max_optimizers is not None:
         optimizers = optimizers[:max_optimizers]
     rows, cols = _grid_shape(len(optimizers))
-    fig, axes = plt.subplots(rows, cols, figsize=(3.8 * cols, 2.9 * rows), squeeze=False)
+    fig, axes = plt.subplots(
+        rows, cols, figsize=(3.8 * cols, 2.9 * rows), squeeze=False
+    )
     colors = color_map(curves["optimizer"].unique())
 
     for ax, opt in zip(axes.ravel(), optimizers):
@@ -268,8 +286,12 @@ def plot_grokking_gap(curves, out_path: str, max_optimizers: int | None = None):
         # anything the curves coincide exactly.
         gap = abs(med["train_accuracy"].iloc[-1] - med["test_accuracy"].iloc[-1])
         offset = 0.0 if gap > 0.05 else 5.0
-        _label_last_point(ax, med.index.values, med["train_accuracy"].values, "train", offset)
-        _label_last_point(ax, med.index.values, med["test_accuracy"].values, "test", -offset)
+        _label_last_point(
+            ax, med.index.values, med["train_accuracy"].values, "train", offset
+        )
+        _label_last_point(
+            ax, med.index.values, med["test_accuracy"].values, "test", -offset
+        )
         ax.set_xscale("log")
         ax.set_ylim(0, 1.02)
         ax.set_title(opt, loc="left")
@@ -280,7 +302,11 @@ def plot_grokking_gap(curves, out_path: str, max_optimizers: int | None = None):
 
     fig.suptitle(
         "The grokking gap: dashed = train, solid = held-out (median over the suite)",
-        x=0.01, ha="left", fontsize=12, color=TEXT_PRIMARY, weight="bold",
+        x=0.01,
+        ha="left",
+        fontsize=12,
+        color=TEXT_PRIMARY,
+        weight="bold",
     )
     fig.tight_layout(rect=(0, 0, 1, 0.95))
     fig.savefig(out_path, dpi=160)
@@ -295,7 +321,10 @@ def plot_aocc(runs, out_path: str):
     _style()
     colors = color_map(runs["optimizer"].unique())
     order = (
-        runs.groupby("optimizer")["aocc_objective"].mean().sort_values(ascending=False).index.tolist()
+        runs.groupby("optimizer")["aocc_objective"]
+        .mean()
+        .sort_values(ascending=False)
+        .index.tolist()
     )
     fig, axes = plt.subplots(1, 2, figsize=(11, 4.4))
 
@@ -312,16 +341,28 @@ def plot_aocc(runs, out_path: str):
         for yi, o in zip(y, order):
             vals = runs.loc[runs["optimizer"] == o, column].to_numpy()
             ax.scatter(
-                vals, np.full_like(vals, yi, dtype=float), s=9,
-                color=SURFACE, edgecolor=colors[o], linewidth=0.8, zorder=3, alpha=0.75,
+                vals,
+                np.full_like(vals, yi, dtype=float),
+                s=9,
+                color=SURFACE,
+                edgecolor=colors[o],
+                linewidth=0.8,
+                zorder=3,
+                alpha=0.75,
             )
         # Park the value at the right edge: printed at the bar end it collides
         # with the per-run scatter that overhangs the mean.
         limit = max(1.0, float(np.max([np.max(runs[column]), *means])) * 1.12)
         for yi, v in zip(y, means):
             ax.annotate(
-                f"{v:.3f}", xy=(limit, yi), xytext=(-2, 0), textcoords="offset points",
-                va="center", ha="right", fontsize=8, color=TEXT_SECONDARY,
+                f"{v:.3f}",
+                xy=(limit, yi),
+                xytext=(-2, 0),
+                textcoords="offset points",
+                va="center",
+                ha="right",
+                fontsize=8,
+                color=TEXT_SECONDARY,
             )
         ax.set_yticks(y, order, color=TEXT_PRIMARY)
         ax.invert_yaxis()
@@ -332,7 +373,11 @@ def plot_aocc(runs, out_path: str):
 
     fig.suptitle(
         "Anytime performance over the curated grokking suite",
-        x=0.01, ha="left", fontsize=12, color=TEXT_PRIMARY, weight="bold",
+        x=0.01,
+        ha="left",
+        fontsize=12,
+        color=TEXT_PRIMARY,
+        weight="bold",
     )
     fig.tight_layout(rect=(0, 0, 1, 0.94))
     fig.savefig(out_path, dpi=160)
@@ -362,7 +407,9 @@ def plot_ert(ert_df, out_path: str, target: float | None = None):
     fig, ax = plt.subplots(figsize=(9.2, 5.4))
     finite = sub[np.isfinite(sub["ert"])]
     floor = float(finite["ert"].min()) if len(finite) else 1.0
-    ceiling = float(finite["ert"].max()) * 2.5 if len(finite) else float(sub["budget"].max())
+    ceiling = (
+        float(finite["ert"].max()) * 2.5 if len(finite) else float(sub["budget"].max())
+    )
 
     optimizers = _ordered(sub["optimizer"].unique())
     for opt in optimizers:
@@ -371,9 +418,15 @@ def plot_ert(ert_df, out_path: str, target: float | None = None):
         # Points only: several problems share a dimension, so a connecting line
         # would draw a trend that the x-axis does not support.
         ax.scatter(
-            g.loc[ok, "n_variables"], g.loc[ok, "ert"],
-            color=colors[opt], marker=markers[opt], s=46,
-            edgecolor=SURFACE, linewidth=0.8, label=opt, zorder=3,
+            g.loc[ok, "n_variables"],
+            g.loc[ok, "ert"],
+            color=colors[opt],
+            marker=markers[opt],
+            s=46,
+            edgecolor=SURFACE,
+            linewidth=0.8,
+            label=opt,
+            zorder=3,
         )
 
     # Everything that never reached the target goes in a banded strip above the
@@ -386,15 +439,24 @@ def plot_ert(ert_df, out_path: str, target: float | None = None):
             continue
         row = ceiling * (1.55 ** (k + 1))
         ax.scatter(
-            g["n_variables"], np.full(len(g), row),
-            facecolor="none", edgecolor=colors[opt], marker=markers[opt],
-            s=44, linewidth=1.2,
+            g["n_variables"],
+            np.full(len(g), row),
+            facecolor="none",
+            edgecolor=colors[opt],
+            marker=markers[opt],
+            s=44,
+            linewidth=1.2,
         )
         ax.annotate(
             f"{opt} — never reached ({len(g)})",
-            xy=(1.0, row), xycoords=("axes fraction", "data"),
-            xytext=(4, 0), textcoords="offset points",
-            va="center", fontsize=7.5, color=TEXT_SECONDARY, annotation_clip=False,
+            xy=(1.0, row),
+            xycoords=("axes fraction", "data"),
+            xytext=(4, 0),
+            textcoords="offset points",
+            va="center",
+            fontsize=7.5,
+            color=TEXT_SECONDARY,
+            annotation_clip=False,
         )
     ax.set_ylim(floor / 1.6, ceiling * 1.55 ** (len(optimizers) + 0.7))
 
@@ -403,7 +465,9 @@ def plot_ert(ert_df, out_path: str, target: float | None = None):
     ax.set_ylabel(f"ERT to test accuracy >= {target:g}  (evaluations, lower is better)")
     ax.set_title(
         f"Expected running time to generalize (target {target:g})",
-        loc="left", fontsize=12, color=TEXT_PRIMARY,
+        loc="left",
+        fontsize=12,
+        color=TEXT_PRIMARY,
     )
     # The never-reached labels take the right quarter of the figure, so the
     # legend has to fit inside the narrowed axes.
@@ -428,12 +492,14 @@ def plot_ecdf(curves, out_path: str, n_targets: int = 12):
     fig, ax = plt.subplots(figsize=(8.4, 5.0))
     for opt, g in curves.groupby("optimizer"):
         pivot = g.pivot_table(
-            index="evaluations", columns=["problem", "instance", "run"], values="objective"
+            index="evaluations",
+            columns=["problem", "instance", "run"],
+            values="objective",
         )
         # Cumulative-best is already encoded in the incumbent curve.
-        frac = np.array(
-            [(pivot.to_numpy() <= t).mean(axis=1) for t in targets]
-        ).mean(axis=0)
+        frac = np.array([(pivot.to_numpy() <= t).mean(axis=1) for t in targets]).mean(
+            axis=0
+        )
         ax.plot(pivot.index.to_numpy(), frac, color=colors[opt], label=opt)
         if len(optimizers) <= 4:
             # Past four series the end-of-line labels collide with each other;
@@ -446,7 +512,9 @@ def plot_ecdf(curves, out_path: str, n_targets: int = 12):
     ax.set_ylabel("fraction of (run, target) pairs solved")
     ax.set_title(
         "Empirical cumulative distribution over objective targets",
-        loc="left", fontsize=12, color=TEXT_PRIMARY,
+        loc="left",
+        fontsize=12,
+        color=TEXT_PRIMARY,
     )
     ax.legend(ncol=min(len(optimizers), 4), loc="upper left")
     fig.tight_layout()
@@ -473,11 +541,21 @@ def plot_screening(summary, out_path: str):
     fig, axes = plt.subplots(1, 2, figsize=(11, 4.4))
     ax = axes[0]
     y = np.arange(len(order))
-    ax.barh(y, [counts[v] for v in order], height=0.6, color=[verdict_color[v] for v in order])
+    ax.barh(
+        y,
+        [counts[v] for v in order],
+        height=0.6,
+        color=[verdict_color[v] for v in order],
+    )
     for yi, v in zip(y, order):
         ax.annotate(
-            str(counts[v]), xy=(counts[v], yi), xytext=(4, 0), textcoords="offset points",
-            va="center", fontsize=8, color=TEXT_SECONDARY,
+            str(counts[v]),
+            xy=(counts[v], yi),
+            xytext=(4, 0),
+            textcoords="offset points",
+            va="center",
+            fontsize=8,
+            color=TEXT_SECONDARY,
         )
     ax.set_yticks(y, [v.replace("_", " ") for v in order], color=TEXT_PRIMARY)
     ax.invert_yaxis()
@@ -489,8 +567,12 @@ def plot_screening(summary, out_path: str):
     for verdict in order:
         sub = summary[summary["modal_verdict"] == verdict]
         ax.scatter(
-            sub["reg_strength"], sub["n_variables"], s=34,
-            color=verdict_color[verdict], edgecolor=SURFACE, linewidth=0.8,
+            sub["reg_strength"],
+            sub["n_variables"],
+            s=34,
+            color=verdict_color[verdict],
+            edgecolor=SURFACE,
+            linewidth=0.8,
             label=verdict.replace("_", " "),
         )
     ax.set_xscale("symlog", linthresh=0.1)
@@ -501,7 +583,11 @@ def plot_screening(summary, out_path: str):
 
     fig.suptitle(
         "Filtering the candidate family down to problems that actually grok",
-        x=0.01, ha="left", fontsize=12, color=TEXT_PRIMARY, weight="bold",
+        x=0.01,
+        ha="left",
+        fontsize=12,
+        color=TEXT_PRIMARY,
+        weight="bold",
     )
     fig.tight_layout(rect=(0, 0, 1, 0.93))
     fig.savefig(out_path, dpi=160)
@@ -510,7 +596,12 @@ def plot_screening(summary, out_path: str):
 
 
 def make_all(
-    runs, curves, ert_df, out_dir: str, screening_summary=None, ert_target: float | None = None
+    runs,
+    curves,
+    ert_df,
+    out_dir: str,
+    screening_summary=None,
+    ert_target: float | None = None,
 ) -> list[str]:
     """Render every figure into ``out_dir``; returns the paths written."""
     os.makedirs(out_dir, exist_ok=True)
@@ -522,7 +613,11 @@ def make_all(
         plot_ecdf(curves, os.path.join(out_dir, "ecdf.png")),
     ]
     if ert_df is not None and len(ert_df):
-        paths.append(plot_ert(ert_df, os.path.join(out_dir, "ert.png"), target=ert_target))
+        paths.append(
+            plot_ert(ert_df, os.path.join(out_dir, "ert.png"), target=ert_target)
+        )
     if screening_summary is not None and len(screening_summary):
-        paths.append(plot_screening(screening_summary, os.path.join(out_dir, "screening.png")))
+        paths.append(
+            plot_screening(screening_summary, os.path.join(out_dir, "screening.png"))
+        )
     return paths

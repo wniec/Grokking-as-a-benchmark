@@ -16,8 +16,10 @@ from typing import Sequence
 from gaab.problem import GrokkingSuite, ProblemSpec
 
 #: Directory holding curated (already screened) suites.
-SUITES_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
-    os.path.abspath(__file__)))), "suites")
+SUITES_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    "suites",
+)
 
 DEFAULT_SUITE_FILE = os.path.join(SUITES_DIR, "grokking_v1.json")
 
@@ -40,37 +42,98 @@ PRESETS: dict[str, dict[str, Sequence]] = {
         "shape": ((2, 8), (2, 12)),
         "rank": (4, 6),
         "rank_targets": (("W1", "W2"),),
-        "reg_strength": (1e-05, 3e-05, 0.0001, 0.0003, 0.001, 0.003, 0.01, 0.02, 0.03, 0.05),
+        "reg_strength": (
+            1e-05,
+            3e-05,
+            0.0001,
+            0.0003,
+            0.001,
+            0.003,
+            0.01,
+            0.02,
+            0.03,
+            0.05,
+        ),
         "train_frac": (0.6,),
         "max_variables": DEFAULT_MAX_VARIABLES,
     },
     "default": {
         "p": (3, 5, 7, 11, 13, 17),
         "shape": (
-            (2, 6), (2, 8), (2, 12), (3, 6), (3, 8),
-            (4, 6), (4, 8), (4, 12),
+            (2, 6),
+            (2, 8),
+            (2, 12),
+            (3, 6),
+            (3, 8),
+            (4, 6),
+            (4, 8),
+            (4, 12),
         ),
         "rank": (None, 3, 4, 6),
         "rank_targets": (("W1",), ("W1", "W2")),
-        "reg_strength": (1e-05, 3e-05, 0.0001, 0.0003, 0.001, 0.003, 0.01, 0.02, 0.03, 0.05),
+        "reg_strength": (
+            1e-05,
+            3e-05,
+            0.0001,
+            0.0003,
+            0.001,
+            0.003,
+            0.01,
+            0.02,
+            0.03,
+            0.05,
+        ),
         # Per-p train/test split: lower p needs more training data to grok
         # (scripts/trainfrac_sweep.py). p=13 keeps both 0.6 (mid nets) and 0.8
         # (small nets), which grok at different splits.
-        "train_frac": {3: (0.8,), 5: (0.8,), 7: (0.8,), 11: (0.7,),
-                       13: (0.6, 0.8), 17: (0.8,), "default": (0.6,)},
+        "train_frac": {
+            3: (0.8,),
+            5: (0.8,),
+            7: (0.8,),
+            11: (0.7,),
+            13: (0.6, 0.8),
+            17: (0.8,),
+            "default": (0.6,),
+        },
         "max_variables": DEFAULT_MAX_VARIABLES,
     },
     "full": {
         "p": (3, 5, 7, 11, 13, 17, 19, 23),
         "shape": (
-            (2, 6), (2, 8), (2, 12), (3, 6), (3, 8), (3, 12),
-            (4, 6), (4, 8), (4, 12), (4, 16),
+            (2, 6),
+            (2, 8),
+            (2, 12),
+            (3, 6),
+            (3, 8),
+            (3, 12),
+            (4, 6),
+            (4, 8),
+            (4, 12),
+            (4, 16),
         ),
         "rank": (None, 2, 3, 4, 6),
         "rank_targets": (("W1",), ("W1", "W2"), ("E", "W1")),
-        "reg_strength": (1e-05, 3e-05, 0.0001, 0.0003, 0.001, 0.003, 0.01, 0.02, 0.03, 0.05),
-        "train_frac": {3: (0.7, 0.8), 5: (0.7, 0.8), 7: (0.7, 0.8), 11: (0.6, 0.7, 0.8),
-                       13: (0.6, 0.7, 0.8), 17: (0.6, 0.7, 0.8), "default": (0.6, 0.7, 0.8)},
+        "reg_strength": (
+            1e-05,
+            3e-05,
+            0.0001,
+            0.0003,
+            0.001,
+            0.003,
+            0.01,
+            0.02,
+            0.03,
+            0.05,
+        ),
+        "train_frac": {
+            3: (0.7, 0.8),
+            5: (0.7, 0.8),
+            7: (0.7, 0.8),
+            11: (0.6, 0.7, 0.8),
+            13: (0.6, 0.7, 0.8),
+            17: (0.6, 0.7, 0.8),
+            "default": (0.6, 0.7, 0.8),
+        },
         "max_variables": DEFAULT_MAX_VARIABLES,
     },
     # Above the 200-parameter ceiling ON PURPOSE: for exercising LM-CMA-ES /
@@ -81,7 +144,18 @@ PRESETS: dict[str, dict[str, Sequence]] = {
         "shape": ((8, 32), (8, 64), (12, 64)),
         "rank": (None, 4, 8, 16),
         "rank_targets": (("W1",), ("W1", "W2")),
-        "reg_strength": (1e-05, 3e-05, 0.0001, 0.0003, 0.001, 0.003, 0.01, 0.02, 0.03, 0.05),
+        "reg_strength": (
+            1e-05,
+            3e-05,
+            0.0001,
+            0.0003,
+            0.001,
+            0.003,
+            0.01,
+            0.02,
+            0.03,
+            0.05,
+        ),
         "train_frac": (0.6,),
         "max_variables": 4000,
     },
@@ -128,9 +202,15 @@ def candidate_specs(
     specs: list[ProblemSpec] = []
     seen: set[str] = set()
     for p in axes["p"]:
-        for (embed_dim, hidden_dim), rank, targets, reg, train_frac in itertools.product(
-            axes["shape"], axes["rank"], axes["rank_targets"],
-            axes["reg_strength"], fracs_for(p),
+        for (
+            embed_dim,
+            hidden_dim,
+        ), rank, targets, reg, train_frac in itertools.product(
+            axes["shape"],
+            axes["rank"],
+            axes["rank_targets"],
+            axes["reg_strength"],
+            fracs_for(p),
         ):
             spec = ProblemSpec(
                 p=p,

@@ -23,6 +23,7 @@ from gaab.data import ModularArithmeticData, PRIMES, is_prime, make_dataset
 from gaab.model import GrokkingMLP, ModelConfig, n_parameters
 from gaab.objective import GrokkingObjective, build_objective
 from gaab.optimizers import OPTIMIZERS, get_optimizer
+from gaab.projection import ProjectedObjective
 from gaab.problem import (
     GrokkingProblem,
     GrokkingSuite,
@@ -44,6 +45,7 @@ __all__ = [
     "OPTIMIZERS",
     "PRIMES",
     "ProblemSpec",
+    "ProjectedObjective",
     "build_objective",
     "candidate_specs",
     "candidate_suite",
